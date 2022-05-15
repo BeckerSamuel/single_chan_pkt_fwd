@@ -1,0 +1,376 @@
+make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
+# GNU Make 4.3
+# Built for Windows32
+# Copyright (C) 1988-2020 Free Software Foundation, Inc.
+# License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
+# This is free software: you are free to change and redistribute it.
+# There is NO WARRANTY, to the extent permitted by law.
+ 
+
+# Make data base, printed on Sun May 15 10:26:28 2022
+
+# Variables
+
+# environment
+SYSTEMDRIVE = C:
+# environment
+LC_ALL = C
+# environment
+USERPROFILE = C:\Users\becke
+# environment
+GRB_LICENSE_FILE = E:\win64\key\gurobi.lic
+# environment
+LOCALAPPDATA = C:\Users\becke\AppData\Local
+# environment
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-7fa7ea50-fe24-4880-8e0b-f145b1c10c1a-sock
+# environment
+VSCODE_CWD = E:\Visual Studio Code\Microsoft VS Code
+# environment
+CHOCOLATEYINSTALL = C:\ProgramData\chocolatey
+# environment
+SYSTEMROOT = C:\WINDOWS
+# makefile (from 'Makefile', line 6)
+LIBS = -lwiringPi
+# environment
+PROCESSOR_LEVEL = 6
+# environment
+PSMODULEPATH = C:\Program Files\WindowsPowerShell\Modules;C:\WINDOWS\system32\WindowsPowerShell\v1.0\Modules
+# default
+MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
+# automatic
+@D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
+# environment
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10288_WLPNRVKTXYEZCYME
+# environment
+VSCODE_HANDLES_UNCAUGHT_ERRORS = true
+# default
+.VARIABLES := 
+# automatic
+%D = $(patsubst %/,%,$(patsubst %\,%,$(dir $%)))
+# automatic
+^D = $(patsubst %/,%,$(patsubst %\,%,$(dir $^)))
+# environment
+VSCODE_LOG_STACK = false
+# automatic
+%F = $(notdir $%)
+# environment
+VSCODE_CODE_CACHE_PATH = C:\Users\becke\AppData\Roaming\Code\CachedData\dfd34e8260c270da74b5c2d86d61aee4b6d56977
+# environment
+LANG = C
+# default
+.LOADED := 
+# environment
+TMP = C:\Users\becke\AppData\Local\Temp
+# default
+.INCLUDE_DIRS = .
+# environment
+PROCESSOR_ARCHITEW6432 = AMD64
+# makefile
+MAKEFLAGS = pqrR
+# environment
+ONEDRIVE = C:\Users\becke\OneDrive
+# environment
+INTELLIJ IDEA COMMUNITY EDITION = E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;
+# makefile
+CURDIR := e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd
+# environment
+VSCODE_PIPE_LOGGING = true
+# environment
+APPLICATION_INSIGHTS_NO_DIAGNOSTIC_CHANNEL = 1
+# environment
+GUROBI_HOME = E:\win64
+# automatic
+*D = $(patsubst %/,%,$(patsubst %\,%,$(dir $*)))
+# environment
+PROGRAMFILES = C:\Program Files (x86)
+# environment
+MFLAGS = -pqrR
+# default
+.SHELLFLAGS := -c
+# environment
+COMMONPROGRAMW6432 = C:\Program Files\Common Files
+# automatic
++D = $(patsubst %/,%,$(patsubst %\,%,$(dir $+)))
+# makefile (from 'Makefile', line 1)
+MAKEFILE_LIST := Makefile
+# automatic
+@F = $(notdir $@)
+# environment
+VSCODE_VERBOSE_LOGGING = true
+# environment
+VSCODE_PID = 10288
+# automatic
+?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
+# automatic
+*F = $(notdir $*)
+# automatic
+<D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
+# environment
+VSCODE_NLS_CONFIG = {"locale":"de","availableLanguages":{"*":"de"},"_languagePackId":"ab36a8be56186a33a5b17df07ec44e64.de","_translationsConfigFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\tcf.json","_cacheRoot":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de","_resolvedLanguagePackCoreLocation":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\dfd34e8260c270da74b5c2d86d61aee4b6d56977","_corruptedFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\corrupted.info","_languagePackSupport":true}
+# default
+MAKE_HOST := Windows32
+# environment
+PROGRAMDATA = C:\ProgramData
+# default
+SHELL := sh.exe
+# environment
+HOMEPATH = \Users\becke
+# environment
+PLATFORMIO_CALLER = vscode
+# default
+MAKECMDGOALS := all
+# environment
+DRIVERDATA = C:\Windows\System32\Drivers\DriverData
+# environment
+COMSPEC = C:\WINDOWS\system32\cmd.exe
+# environment
+WINDIR = C:\WINDOWS
+# environment
+MAKELEVEL := 0
+# default
+MAKE = $(MAKE_COMMAND)
+# environment
+PATH = E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;
+# environment
+COMPUTERNAME = DESKTOP-BI1B09K
+# default
+MAKEFILES := 
+# automatic
+^F = $(notdir $^)
+# environment
+PROMPT = $P$G
+# environment
+CHOCOLATEYLASTPATHUPDATE = 132805790462341943
+# environment
+LOGONSERVER = \\DESKTOP-BI1B09K
+# environment
+VSCODE_LOG_NATIVE = false
+# environment
+USERNAME = becke
+# environment
+COMMONPROGRAMFILES = C:\Program Files (x86)\Common Files
+# automatic
+?F = $(notdir $?)
+# environment
+PROGRAMW6432 = C:\Program Files
+# environment
+NO_PROXY = 127.0.0.1
+# environment
+PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
+# automatic
++F = $(notdir $+)
+# environment
+ORIGINAL_XDG_CURRENT_DESKTOP = undefined
+# environment
+USERDOMAIN = DESKTOP-BI1B09K
+# 'override' directive
+GNUMAKEFLAGS := 
+# environment
+VS140COMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
+# environment
+OS = Windows_NT
+# environment
+PLATFORMIO_PATH = C:\Users\becke\.platformio\python3;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;
+# makefile
+.DEFAULT_GOAL := all
+# default
+MAKE_VERSION := 4.3
+# environment
+PROGRAMFILES(X86) = C:\Program Files (x86)
+# environment
+USERDOMAIN_ROAMINGPROFILE = DESKTOP-BI1B09K
+# environment
+NUMBER_OF_PROCESSORS = 8
+# environment
+PUBLIC = C:\Users\Public
+# environment
+APPDATA = C:\Users\becke\AppData\Roaming
+# makefile (from 'Makefile', line 5)
+CFLAGS = -std=c++11 -c -Wall -I include/
+# environment
+HOMEDRIVE = C:
+# environment
+GTK_BASEPATH = C:\Program Files (x86)\GtkSharp\2.12\
+# environment
+PROCESSOR_ARCHITECTURE = x86
+# environment
+VSCODE_AMD_ENTRYPOINT = vs/workbench/api/node/extensionHostProcess
+# environment
+PLATFORMIO_IDE = 2.4.3
+# environment
+COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
+# environment
+ELECTRON_RUN_AS_NODE = 1
+# environment
+TEMP = C:\Users\becke\AppData\Local\Temp
+# environment
+VSCODE_IPC_HOOK = \\.\pipe\7a0e0ee0eb956d808b38a7ff49ccf9da-1.66.2-main-sock
+# default
+.RECIPEPREFIX := 
+# automatic
+<F = $(notdir $<)
+# environment
+AV_APPDATA = C:\Users\becke\AppData\Roaming
+# default
+SUFFIXES := 
+# environment
+ALLUSERSPROFILE = C:\ProgramData
+# environment
+SESSIONNAME = Console
+# default
+.FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync load
+# environment
+PROCESSOR_REVISION = 3c03
+# makefile (from 'Makefile', line 4)
+CC = g++
+# environment
+PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+# variable set hash-table stats:
+# Load=107/1024=10%, Rehash=0, Collisions=12/139=9%
+
+# Pattern-specific Variable Values
+
+# No pattern-specific variable values.
+
+# Directories
+
+# . (key e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd, mtime 1652603187): 15 files, no impossibilities.
+
+# 15 files, no impossibilities in 1 directories.
+
+# Implicit Rules
+
+# No implicit rules.
+
+# Files
+
+# Not a target:
+Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-15 10:24:14
+#  File has been updated.
+#  Successfully updated.
+
+uninstall:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 30):
+	sudo systemctl stop single_chan_pkt_fwd
+	sudo systemctl disable single_chan_pkt_fwd.service
+	sudo rm -f /lib/systemd/system/single_chan_pkt_fwd.service 
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 20):
+	rm *.o single_chan_pkt_fwd
+
+# Not a target:
+single_chan_pkt_fwd.cpp:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+# Not a target:
+.DEFAULT:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+all: single_chan_pkt_fwd
+#  Command line target.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+
+install:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 23):
+	sudo cp -f ./single_chan_pkt_fwd.service /lib/systemd/system/
+	sudo systemctl enable single_chan_pkt_fwd.service
+	sudo systemctl daemon-reload
+	sudo systemctl start single_chan_pkt_fwd
+	sudo systemctl status single_chan_pkt_fwd -l
+
+# Not a target:
+base64.c:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-15 10:24:14
+#  File has been updated.
+#  Successfully updated.
+
+single_chan_pkt_fwd: base64.o single_chan_pkt_fwd.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+#  recipe to execute (from 'Makefile', line 11):
+	$(CC) single_chan_pkt_fwd.o base64.o $(LIBS) -o single_chan_pkt_fwd
+
+# Not a target:
+.SUFFIXES:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+
+single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 14):
+	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
+
+base64.o: base64.c
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := base64.o
+# automatic
+# * := 
+# automatic
+# < := base64.c
+# automatic
+# + := base64.c
+# automatic
+# % := 
+# automatic
+# ^ := base64.c
+# automatic
+# ? := base64.c
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/13=15%
+#  recipe to execute (from 'Makefile', line 17):
+	$(CC) $(CFLAGS) base64.c
+
+# files hash-table stats:
+# Load=12/1024=1%, Rehash=0, Collisions=0/32=0%
+# VPATH Search Paths
+
+# No 'vpath' search paths.
+
+# No general ('VPATH' variable) search path.
+
+# strcache buffers: 1 (0) / strings = 24 / storage = 258 B / avg = 10 B
+# current buf: size = 8174 B / used = 258 B / count = 24 / avg = 10 B
+
+# strcache performance: lookups = 42 / hit rate = 42%
+# hash-table stats:
+# Load=24/8192=0%, Rehash=0, Collisions=0/42=0%
+# Finished Make data base on Sun May 15 10:26:28 
+ 2022
+
+ 
