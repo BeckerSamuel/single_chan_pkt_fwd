@@ -1,6 +1,7 @@
+make.exe --dry-run --always-make --keep-going --print-directory
 make: Entering directory 'e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd'
-g++ -std=c++11 -c -Wall -I include/ base64.c
 g++ -std=c++11 -c -Wall -I include/ single_chan_pkt_fwd.cpp
-g++ single_chan_pkt_fwd.o base64.o -lwiringPi -o single_chan_pkt_fwd
+ 
+g++ single_chan_pkt_fwd.o -lwiringPi -o single_chan_pkt_fwd
 make: Leaving directory 'e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd'
  

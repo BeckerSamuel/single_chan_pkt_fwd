@@ -41,19 +41,12 @@
 
 #include <rapidjson/document.h>
 #include <rapidjson/filereadstream.h>
-//#include <rapidjson/stringbuffer.h>
-//#include <rapidjson/writer.h>
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-//#include <arpa/inet.h>
-//#include <net/if.h>
-//#include <sys/ioctl.h>
-//#include <sys/socket.h>
 #include <sys/time.h>
 #include <sys/types.h>
-//#include <netdb.h>
 
 #include <cstdlib>
 #include <cstdint>
@@ -68,10 +61,6 @@ using namespace std;
 using namespace rapidjson;
 
 static const int SPI_CHANNEL = 0;
-
-/*struct sockaddr_in si_other;
-int s;
-int slen = sizeof(si_other);*/
 
 uint32_t cp_nb_rx_rcv;
 uint32_t cp_nb_rx_ok;
@@ -107,7 +96,8 @@ int RST   = 0xff;
 string host = "";
 string user = "";
 string passwd = "";
-string db_name = "";
+string db_raw_messages = "";
+string db_device_config = "";
 
 // Set location in global_conf.json
 float lat =  0.0;
@@ -279,34 +269,17 @@ void SetupLoRa()
     Die("Bad pin configuration ssPin and dio0 need at least to be defined");
   }
 
-  /*digitalWrite(RST, HIGH);
-  delay(100);
   digitalWrite(RST, LOW);
   delay(100);
-
-  uint8_t version = ReadRegister(REG_VERSION);*/
-
-/*
-  if (version == 0x22) {
-    // sx1272
-    printf("SX1272 detected, starting.\n");
-    sx1272 = true;
-  } else {*/
-    // sx1276?
-    digitalWrite(RST, LOW);
-    delay(100);
-    digitalWrite(RST, HIGH);
-    delay(100);
-    version = ReadRegister(REG_VERSION);
-    if (version == 0x12) {
-      // sx1276
-      printf("SX1276 detected, starting.\n");
-      //sx1272 = false;
-    } else {
-      printf("Transceiver version 0x%02X\n", version);
-      Die("Unrecognized transceiver");
-    }
- // }
+  digitalWrite(RST, HIGH);
+  delay(100);
+  uint8_t version = ReadRegister(REG_VERSION);
+  if (version == 0x12) { // sx1276
+    printf("SX1276 detected, starting.\n");
+  } else {
+    printf("Transceiver version 0x%02X\n", version);
+    Die("Unrecognized transceiver");
+  }
 
   WriteRegister(REG_OPMODE, SX72_MODE_SLEEP);
 
@@ -318,22 +291,13 @@ void SetupLoRa()
 
   WriteRegister(REG_SYNC_WORD, 0x34); // LoRaWAN public sync word
 
-  /*if (sx1272) {
-    if (sf == SF11 || sf == SF12) {
-      WriteRegister(REG_MODEM_CONFIG, 0x0B);
-    } else {
-      WriteRegister(REG_MODEM_CONFIG, 0x0A);
-    }
-    WriteRegister(REG_MODEM_CONFIG2, (sf << 4) | 0x04);
-  } else {*/
-    if (sf == SF11 || sf == SF12) {
-      WriteRegister(REG_MODEM_CONFIG3, 0x0C);
-    } else {
-      WriteRegister(REG_MODEM_CONFIG3, 0x04);
-    }
-    WriteRegister(REG_MODEM_CONFIG, 0x72);
-    WriteRegister(REG_MODEM_CONFIG2, (sf << 4) | 0x04);
- // }
+  if (sf == SF11 || sf == SF12) {
+    WriteRegister(REG_MODEM_CONFIG3, 0x0C);
+  } else {
+    WriteRegister(REG_MODEM_CONFIG3, 0x04);
+  }
+  WriteRegister(REG_MODEM_CONFIG, 0x72);
+  WriteRegister(REG_MODEM_CONFIG2, (sf << 4) | 0x04);
 
   if (sf == SF10 || sf == SF11 || sf == SF12) {
     WriteRegister(REG_SYMB_TIMEOUT_LSB, 0x05);
@@ -373,7 +337,6 @@ bool Receivepacket()
         SNR = ( value & 0xFF ) >> 2;
       }
 
-      //rssicorr = sx1272 ? 139 : 157;
       rssicorr = 157;
 
       printf("Packet RSSI: %d, ", ReadRegister(0x1A) - rssicorr);
@@ -402,7 +365,7 @@ int main()
   struct timeval nowtime;
   uint32_t lasttime;
 
-  LoadConfiguration("global_conf_2.json");
+  LoadConfiguration("global_conf.json");
   PrintConfiguration();
 
   //TODO create database if not yet created
@@ -419,15 +382,6 @@ int main()
   // Setup LORA
   SetupLoRa();
 
-/*
-  // Prepare Socket connection
-  if ((s = socket(AF_INET, SOCK_DGRAM, IPPROTO_UDP)) == -1) {
-    Die("socket");
-  }
-
-  memset((char *) &si_other, 0, sizeof(si_other));
-  si_other.sin_family = AF_INET;*/
-
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
 
@@ -441,7 +395,6 @@ int main()
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
     if (nowseconds - lasttime >= 30) {
       lasttime = nowseconds;
-      SendStat();
       cp_nb_rx_rcv = 0;
       cp_nb_rx_ok = 0;
       cp_up_pkt_fwd = 0;
@@ -494,8 +447,10 @@ void LoadConfiguration(string configurationFile)
             user = confIt->value.GetString();
           } else if (key.compare("passwd") == 0) {
             passwd = confIt->value.GetString();
-          } else if (key.compare("db") == 0) {
-            db_name = confIt->value.GetString();
+          } else if (key.compare("db_raw_messages") == 0) {
+            string db_raw_messages = confIt->value.GetString();
+          } else if (key.compare("db_device_config") == 0) {
+            db_device_config = confIt->value.GetString();
           }
         }
       }
@@ -520,6 +475,6 @@ void LoadConfiguration(string configurationFile)
 void PrintConfiguration()
 {
   printf("Gateway Configuration\n");
-  printf("  %s (%s)\n  %s\n", db_name, user, host);
+  printf("  Host=%s\n  DB-Raw-Messages=%s\n  DB-Device-Config=%s\n  User=%s\n  Password=%s\n", host, db_raw_messages, db_device_config, user, passwd);
   printf("  Latitude=%.8f\n  Longitude=%.8f\n  Altitude=%d\n", lat, lon, alt);
 }

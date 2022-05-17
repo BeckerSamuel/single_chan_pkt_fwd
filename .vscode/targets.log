@@ -7,7 +7,7 @@ make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --quest
 # There is NO WARRANTY, to the extent permitted by law.
  
 
-# Make data base, printed on Sun May 15 10:26:28 2022
+# Make data base, printed on Tue May 17 18:54:27 2022
 
 # Variables
 
@@ -22,7 +22,7 @@ GRB_LICENSE_FILE = E:\win64\key\gurobi.lic
 # environment
 LOCALAPPDATA = C:\Users\becke\AppData\Local
 # environment
-VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-7fa7ea50-fe24-4880-8e0b-f145b1c10c1a-sock
+VSCODE_IPC_HOOK_EXTHOST = \\.\pipe\vscode-ipc-10ea8391-2159-4331-a146-a5032c9a7d4c-sock
 # environment
 VSCODE_CWD = E:\Visual Studio Code\Microsoft VS Code
 # environment
@@ -40,7 +40,7 @@ MAKE_COMMAND := C:/ProgramData/chocolatey/lib/make/tools/install/bin/make.exe
 # automatic
 @D = $(patsubst %/,%,$(patsubst %\,%,$(dir $@)))
 # environment
-CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_10288_WLPNRVKTXYEZCYME
+CHROME_CRASHPAD_PIPE_NAME = \\.\pipe\crashpad_12676_KFENNDDCXNPQILVF
 # environment
 VSCODE_HANDLES_UNCAUGHT_ERRORS = true
 # default
@@ -54,7 +54,7 @@ VSCODE_LOG_STACK = false
 # automatic
 %F = $(notdir $%)
 # environment
-VSCODE_CODE_CACHE_PATH = C:\Users\becke\AppData\Roaming\Code\CachedData\dfd34e8260c270da74b5c2d86d61aee4b6d56977
+VSCODE_CODE_CACHE_PATH = C:\Users\becke\AppData\Roaming\Code\CachedData\da15b6fd3ef856477bf6f4fb29ba1b7af717770d
 # environment
 LANG = C
 # default
@@ -98,7 +98,7 @@ MAKEFILE_LIST := Makefile
 # environment
 VSCODE_VERBOSE_LOGGING = true
 # environment
-VSCODE_PID = 10288
+VSCODE_PID = 12676
 # automatic
 ?D = $(patsubst %/,%,$(patsubst %\,%,$(dir $?)))
 # automatic
@@ -106,7 +106,7 @@ VSCODE_PID = 10288
 # automatic
 <D = $(patsubst %/,%,$(patsubst %\,%,$(dir $<)))
 # environment
-VSCODE_NLS_CONFIG = {"locale":"de","availableLanguages":{"*":"de"},"_languagePackId":"ab36a8be56186a33a5b17df07ec44e64.de","_translationsConfigFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\tcf.json","_cacheRoot":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de","_resolvedLanguagePackCoreLocation":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\dfd34e8260c270da74b5c2d86d61aee4b6d56977","_corruptedFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\ab36a8be56186a33a5b17df07ec44e64.de\\corrupted.info","_languagePackSupport":true}
+VSCODE_NLS_CONFIG = {"locale":"de","availableLanguages":{"*":"de"},"_languagePackId":"76abe230f76758c10463f0219f362aef.de","_translationsConfigFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\76abe230f76758c10463f0219f362aef.de\\tcf.json","_cacheRoot":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\76abe230f76758c10463f0219f362aef.de","_resolvedLanguagePackCoreLocation":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\76abe230f76758c10463f0219f362aef.de\\da15b6fd3ef856477bf6f4fb29ba1b7af717770d","_corruptedFile":"C:\\Users\\becke\\AppData\\Roaming\\Code\\clp\\76abe230f76758c10463f0219f362aef.de\\corrupted.info","_languagePackSupport":true}
 # default
 MAKE_HOST := Windows32
 # environment
@@ -203,8 +203,9 @@ COMMONPROGRAMFILES(X86) = C:\Program Files (x86)\Common Files
 ELECTRON_RUN_AS_NODE = 1
 # environment
 TEMP = C:\Users\becke\AppData\Local\Temp
-# environment
-VSCODE_IPC_HOOK = \\.\pipe\7a0e0ee0eb956d808b38a7ff49ccf9da-1.66.2-main-sock
+# e 
+nvironment
+VSCODE_IPC_HOOK = \\.\pipe\7a0e0ee0eb956d808b38a7ff49ccf9da-1.67.1-main-sock
 # default
 .RECIPEPREFIX := 
 # automatic
@@ -234,9 +235,9 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
 
 # Directories
 
-# . (key e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd, mtime 1652603187): 15 files, no impossibilities.
+# . (key e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd, mtime 1652609209): 12 files, no impossibilities.
 
-# 15 files, no impossibilities in 1 directories.
+# 12 files, no impossibilities in 1 directories.
 
 # Implicit Rules
 
@@ -247,7 +248,7 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
 # Not a target:
 Makefile:
 #  Implicit rule search has been done.
-#  Last modified 2022-05-15 10:24:14
+#  Last modified 2022-05-15 12:06:53
 #  File has been updated.
 #  Successfully updated.
 
@@ -255,23 +256,25 @@ uninstall:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 30):
+#  recipe to execute (from 'Makefile', line 27):
 	sudo systemctl stop single_chan_pkt_fwd
 	sudo systemctl disable single_chan_pkt_fwd.service
 	sudo rm -f /lib/systemd/system/single_chan_pkt_fwd.service 
+ 
 
 clean:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 20):
+#  recipe to execute (from 'Makefile', line 17):
 	rm *.o single_chan_pkt_fwd
 
 # Not a target:
 single_chan_pkt_fwd.cpp:
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  Last modified 2022-05-17 18:54:27
+#  File has been updated.
+#  Successfully updated.
 
 # Not a target:
 .DEFAULT:
@@ -292,21 +295,15 @@ install:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
-#  recipe to execute (from 'Makefile', line 23):
+#  recipe to execute (from 'Makefile', line 20):
 	sudo cp -f ./single_chan_pkt_fwd.service /lib/systemd/system/
-	sudo systemctl enable single_chan_pkt_fwd.service
+	sudo systemctl enable single_chan_pkt_fwd 
+.service
 	sudo systemctl daemon-reload
 	sudo systemctl start single_chan_pkt_fwd
 	sudo systemctl status single_chan_pkt_fwd -l
 
-# Not a target:
-base64.c:
-#  Implicit rule search has been done.
-#  Last modified 2022-05-15 10:24:14
-#  File has been updated.
-#  Successfully updated.
-
-single_chan_pkt_fwd: base64.o single_chan_pkt_fwd.o
+single_chan_pkt_fwd: single_chan_pkt_fwd.o
 #  Implicit rule search has not been done.
 #  File does not exist.
 #  File has been updated.
@@ -314,7 +311,7 @@ single_chan_pkt_fwd: base64.o single_chan_pkt_fwd.o
 # variable set hash-table stats:
 # Load=0/32=0%, Rehash=0, Collisions=0/5=0%
 #  recipe to execute (from 'Makefile', line 11):
-	$(CC) single_chan_pkt_fwd.o base64.o $(LIBS) -o single_chan_pkt_fwd
+	$(CC) single_chan_pkt_fwd.o $(LIBS) -o single_chan_pkt_fwd
 
 # Not a target:
 .SUFFIXES:
@@ -324,53 +321,46 @@ single_chan_pkt_fwd: base64.o single_chan_pkt_fwd.o
 
 single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
 #  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
-#  recipe to execute (from 'Makefile', line 14):
-	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
-
-base64.o: base64.c
-#  Implicit rule search has not been done.
 #  Implicit/static pattern stem: ''
 #  File does not exist.
 #  File has been updated.
 #  Needs to be updated (-q is set).
 # automatic
-# @ := base64.o
+# @ := single_chan_pkt_fwd.o
 # automatic
 # * := 
 # automatic
-# < := base64.c
+# < := single_chan_pkt_fwd.cpp
 # automatic
-# + := base64.c
+# + := single_chan_pkt_fwd.cpp
 # automatic
 # % := 
 # automatic
-# ^ := base64.c
+# ^ := single_chan_pkt_fwd.cpp
 # automatic
-# ? := base64.c
+# ? := single_chan_pkt_fwd.cpp
 # automatic
 # | := 
 # variable set hash-table stats:
 # Load=8/32=25%, Rehash=0, Collisions=2/13=15%
-#  recipe to execute (from 'Makefile', line 17):
-	$(CC) $(CFLAGS) base64.c
+#  recipe to execute (from 'Makefile', line 14):
+	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
 
 # files hash-table stats:
-# Load=12/1024=1%, Rehash=0, Collisions=0/32=0%
+# Load=10/1024=1%, Rehash=0, Collisions=0/27=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 24 / storage = 258 B / avg = 10 B
-# current buf: size = 8174 B / used = 258 B / count = 24 / avg = 10 B
+# strcache buffers: 1 (0) / strings = 20 / storage = 222 B / avg = 11 B
+# current buf: 
+ size = 8174 B / used = 222 B / count = 20 / avg = 11 B
 
-# strcache performance: lookups = 42 / hit rate = 42%
+# strcache performance: lookups = 35 / hit rate = 42%
 # hash-table stats:
-# Load=24/8192=0%, Rehash=0, Collisions=0/42=0%
-# Finished Make data base on Sun May 15 10:26:28 
- 2022
+# Load=20/8192=0%, Rehash=0, Collisions=0/35=0%
+# Finished Make data base on Tue May 17 18:54:27 2022
 
  
