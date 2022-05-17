@@ -442,15 +442,15 @@ void LoadConfiguration(string configurationFile)
         for (Value::ConstMemberIterator confIt = database_conf.MemberBegin(); confIt != database_conf.MemberEnd(); ++confIt) {
           string key(confIt->name.GetString());
           if (key.compare("host") == 0) {
-            strcpy(host, confIt->value.GetString());
+            host.append(confIt->value.GetString());
           } else if (key.compare("user") == 0) {
-            strcpy(user, confIt->value.GetString());
+            user.append(confIt->value.GetString());
           } else if (key.compare("passwd") == 0) {
-            strcpy(passwd, confIt->value.GetString());
+            passwd.append(confIt->value.GetString());
           } else if (key.compare("db_raw_messages") == 0) {
-            strcpy(db_raw_messages, confIt->value.GetString());
+            db_raw_messages.append(confIt->value.GetString());
           } else if (key.compare("db_device_config") == 0) {
-            strcpy(db_device_config, confIt->value.GetString());
+            db_device_config.append(confIt->value.GetString());
           }
         }
       }
@@ -475,6 +475,6 @@ void LoadConfiguration(string configurationFile)
 void PrintConfiguration()
 {
   printf("Gateway Configuration\n");
-  printf("  Host=%s\n  DB-Raw-Messages=%s\n  DB-Device-Config=%s\n  User=%s\n  Password=%s\n", host, db_raw_messages, db_device_config, user, passwd);
+  printf("  Host=%s\n  DB-Raw-Messages=%s\n  DB-Device-Config=%s\n  User=%s\n  Password=%s\n", host.c_str(), db_raw_messages.c_str(), db_device_config.c_str(), user.c_str(), passwd.c_str());
   printf("  Latitude=%.8f\n  Longitude=%.8f\n  Altitude=%d\n", lat, lon, alt);
 }
