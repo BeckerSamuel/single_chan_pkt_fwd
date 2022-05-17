@@ -442,15 +442,15 @@ void LoadConfiguration(string configurationFile)
         for (Value::ConstMemberIterator confIt = database_conf.MemberBegin(); confIt != database_conf.MemberEnd(); ++confIt) {
           string key(confIt->name.GetString());
           if (key.compare("host") == 0) {
-            host = confIt->value.GetString();
+            strcpy(host, confIt->value.GetString());
           } else if (key.compare("user") == 0) {
-            user = confIt->value.GetString();
+            strcpy(user, confIt->value.GetString());
           } else if (key.compare("passwd") == 0) {
-            passwd = confIt->value.GetString();
+            strcpy(passwd, confIt->value.GetString());
           } else if (key.compare("db_raw_messages") == 0) {
-            string db_raw_messages = confIt->value.GetString();
+            strcpy(db_raw_messages, confIt->value.GetString());
           } else if (key.compare("db_device_config") == 0) {
-            db_device_config = confIt->value.GetString();
+            strcpy(db_device_config, confIt->value.GetString());
           }
         }
       }
