@@ -162,7 +162,7 @@ int main()
       //TODO check if there is a new config
       //TODO answer the device with ok/or the config
 
-      message.message = "OK"
+      message.message = "OK";
       sendLoRa(message);
       message.empty = 1;
     }
@@ -282,13 +282,13 @@ void PrintConfiguration()
 void sendLoRa(struct LoRaMessage message) {
   string output = "";
 
-	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
+	sprintf(output.c_str(), "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
 	
 	string check = "";
 	for(uint8_t i = 0; i < message.message.length(); i++) {
 		message.checksum += output[i];
 	}
-	sprintf(check, "%04x", message.checksum);
+	sprintf(check.c_str(), "%04x", message.checksum);
 	
 	output.append(check);
 
@@ -318,7 +318,7 @@ struct LoRaMessage getLoRa(struct LoRaMessage message) {
       pattern[strlen(pattern) - 3] = '%';
 
       //Split the incoming message
-      sscanf(inputStr.c_str(), pattern, &message.deviceID, &message.devicetype, message.message, &message.checksum);
+      sscanf(inputStr.c_str(), pattern, &message.deviceID, &message.devicetype, message.message.c_str(), &message.checksum);
 		
       uint16_t generated_checksum = 0;
       for(uint8_t i = 0; i < packetSize-2; i++) {
