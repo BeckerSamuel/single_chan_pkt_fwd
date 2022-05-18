@@ -164,7 +164,7 @@ int main()
       //TODO check if there is a new config
       //TODO answer the device with ok/or the config
 
-      message->message = "OK\n";
+      strcpy(message->message, "OK\n");
       sendLoRa(message);
       message->empty = 1;
     }
