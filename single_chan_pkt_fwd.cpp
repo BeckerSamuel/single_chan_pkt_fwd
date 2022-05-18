@@ -421,7 +421,7 @@ int main()
     gettimeofday(&nowtime, NULL);
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
     if (nowseconds - lasttime >= 30) {
-      print("I'm alive!")
+      printf("I'm alive!")
       lasttime = nowseconds;
       cp_nb_rx_rcv = 0;
       cp_nb_rx_ok = 0;
