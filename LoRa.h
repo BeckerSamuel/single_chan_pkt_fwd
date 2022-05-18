@@ -30,7 +30,7 @@
 #define PA_OUTPUT_RFO_PIN          0
 #define PA_OUTPUT_PA_BOOST_PIN     1
 
-class LoRaClass : public Stream {
+class LoRaClass /*: public Stream*/ {
 public:
   LoRaClass();
 
@@ -82,7 +82,7 @@ public:
   void crc() { enableCrc(); }
   void noCrc() { disableCrc(); }
 
-  byte random();
+  uint8_t random();
 
   void setPins(int ss = LORA_DEFAULT_SS_PIN, int reset = LORA_DEFAULT_RESET_PIN, int dio0 = LORA_DEFAULT_DIO0_PIN);
   //void setSPI(SPIClass& spi);
