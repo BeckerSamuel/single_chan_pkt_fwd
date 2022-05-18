@@ -332,6 +332,4 @@ void getLoRa(struct LoRaMessage *message) {
 		
       if(generated_checksum == message->checksum) message->empty = 0;
     }
-
-    return message;
 }
