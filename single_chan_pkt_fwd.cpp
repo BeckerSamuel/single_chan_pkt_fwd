@@ -111,11 +111,11 @@ uint16_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
 
 struct LoRaMessage {
-	uint32_t deviceID,
-	uint8_t devicetype,
-	std::string message,
-	uint16_t checksum
-}
+	uint32_t deviceID;
+	uint8_t devicetype;
+	string message;
+	uint16_t checksum;
+};
 
 void LoadConfiguration(string filename);
 void PrintConfiguration();
@@ -270,19 +270,19 @@ void PrintConfiguration()
   printf("  Latitude=%.8f\n  Longitude=%.8f\n  Altitude=%d\n", lat, lon, alt);
 }
 
-#
-# LORA CRYPTING
-#
+//#
+//# LORA CRYPTING
+//#
 //Device id (8 Byte)
 //Device type (2 Byte)
 //message (Get length)
 //Checksum (4 Byte)
 void sendLoRa(struct LoRaMessage message) {
-    std::string output = "";
+    string output = "";
 
 	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
 	
-	std::string check = "";
+	string check = "";
 	for(uint8_t i = 0; ) {
 		message.checksum += output[i];
 	}
