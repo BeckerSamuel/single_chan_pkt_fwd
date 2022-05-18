@@ -152,6 +152,12 @@ int main()
   LoRa.setSignalBandwidth(bw);
 
 
+  uint32_t bwret = LoRa.getSignalBandwidth();
+  printf("%ld\n", bwret);
+  uint32_t sprret = LoRa.getSpreadingFactor();
+  printf("%ld\n", sprret);
+
+
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
 
@@ -167,6 +173,11 @@ int main()
       strcpy(message->message, "OK\n");
       sendLoRa(message);
       message->empty = 1;
+    }
+
+    uint8_t packetSize = LoRa.parsePacket();
+    if (packetSize) {
+      printf("Received Message outside Func!\n");
     }
 
     gettimeofday(&nowtime, NULL);
@@ -269,7 +280,7 @@ void sendLoRa(struct LoRaMessage *message) {
   uint8_t messageLength = strlen(message->message) + 14;
   char output[messageLength] = { '\0' };
 
-	sprintf(output, "%08xl%02d%s", message->deviceID, message->devicetype, message->message);
+	sprintf(output, "%08lx%02d%s", message->deviceID, message->devicetype, message->message);
 	
 	char check[5] = { '\0' };
 	for(uint8_t i = 0; i < strlen(output); i++) {
@@ -291,6 +302,7 @@ void sendLoRa(struct LoRaMessage *message) {
 void getLoRa(struct LoRaMessage *message) {
     uint8_t packetSize = LoRa.parsePacket();
     if (packetSize) {
+      printf("Received Message!\n");
       char input[packetSize] = { '\0' };
       for(uint8_t i = 0; i < packetSize; i++) {
         input[i] = LoRa.read();
@@ -298,7 +310,7 @@ void getLoRa(struct LoRaMessage *message) {
   
       char pattern[18];
       uint8_t messageSize = packetSize - 12;
-      sprintf(pattern, "t8xlt2dt%dst4x", messageSize);
+      sprintf(pattern, "t8lxt2dt%dst4x", messageSize);
       pattern[0] = '%';
       pattern[4] = '%';
       pattern[8] = '%';
