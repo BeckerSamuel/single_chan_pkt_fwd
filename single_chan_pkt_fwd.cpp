@@ -107,258 +107,11 @@ int   alt =  0;
 // Set spreading factor (SF7 - SF12), &nd  center frequency
 // Overwritten by the ones set in global_conf.json
 SpreadingFactor_t sf = SF7;
-uint16_t bw = 125;
+uint16_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
-
-// #############################################
-// #############################################
-
-/*#define REG_FIFO                    0x00
-#define REG_FIFO_ADDR_PTR           0x0D
-#define REG_FIFO_TX_BASE_AD         0x0E
-#define REG_FIFO_RX_BASE_AD         0x0F
-#define REG_RX_NB_BYTES             0x13
-#define REG_OPMODE                  0x01
-#define REG_FIFO_RX_CURRENT_ADDR    0x10
-#define REG_IRQ_FLAGS               0x12
-#define REG_DIO_MAPPING_1           0x40
-#define REG_DIO_MAPPING_2           0x41
-#define REG_MODEM_CONFIG            0x1D
-#define REG_MODEM_CONFIG2           0x1E
-#define REG_MODEM_CONFIG3           0x26
-#define REG_SYMB_TIMEOUT_LSB        0x1F
-#define REG_PKT_SNR_VALUE           0x19
-#define REG_PAYLOAD_LENGTH          0x22
-#define REG_IRQ_FLAGS_MASK          0x11
-#define REG_MAX_PAYLOAD_LENGTH      0x23
-#define REG_HOP_PERIOD              0x24
-#define REG_SYNC_WORD               0x39
-#define REG_VERSION                 0x42
-
-#define SX72_MODE_RX_CONTINUOS      0x85
-#define SX72_MODE_TX                0x83
-#define SX72_MODE_SLEEP             0x80
-#define SX72_MODE_STANDBY           0x81
-
-#define PAYLOAD_LENGTH              0x40
-
-// LOW NOISE AMPLIFIER
-#define REG_LNA                     0x0C
-#define LNA_MAX_GAIN                0x23
-#define LNA_OFF_GAIN                0x00
-#define LNA_LOW_GAIN                0x20
-
-// CONF REG
-#define REG1                        0x0A
-#define REG2                        0x84
-
-#define SX72_MC2_FSK                0x00
-#define SX72_MC2_SF7                0x70
-#define SX72_MC2_SF8                0x80
-#define SX72_MC2_SF9                0x90
-#define SX72_MC2_SF10               0xA0
-#define SX72_MC2_SF11               0xB0
-#define SX72_MC2_SF12               0xC0
-
-#define SX72_MC1_LOW_DATA_RATE_OPTIMIZE  0x01 // mandated for SF11 and SF12
-
-// FRF
-#define REG_FRF_MSB              0x06
-#define REG_FRF_MID              0x07
-#define REG_FRF_LSB              0x08
-
-#define FRF_MSB                  0xD9 // 868.1 Mhz
-#define FRF_MID                  0x06
-#define FRF_LSB                  0x66*/
 
 void LoadConfiguration(string filename);
 void PrintConfiguration();
-
-void Die(const char *s)
-{
-  perror(s);
-  exit(1);
-}
-
-/*void SelectReceiver()
-{
-  digitalWrite(ssPin, LOW);
-}
-
-void UnselectReceiver()
-{
-  digitalWrite(ssPin, HIGH);
-}
-
-uint8_t ReadRegister(uint8_t addr)
-{
-  uint8_t spibuf[2];
-  spibuf[0] = addr & 0x7F;
-  spibuf[1] = 0x00;
-
-  SelectReceiver();
-  wiringPiSPIDataRW(SPI_CHANNEL, spibuf, 2);
-  UnselectReceiver();
-
-  return spibuf[1];
-}
-
-void WriteRegister(uint8_t addr, uint8_t value)
-{
-  uint8_t spibuf[2];
-  spibuf[0] = addr | 0x80;
-  spibuf[1] = value;
-
-  SelectReceiver();
-  wiringPiSPIDataRW(SPI_CHANNEL, spibuf, 2);
-  UnselectReceiver();
-}
-
-bool ReceivePkt(char* payload, uint8_t* p_length)
-{
-  // clear rxDone
-  WriteRegister(REG_IRQ_FLAGS, 0x40);
-
-  int irqflags = ReadRegister(REG_IRQ_FLAGS);
-
-  cp_nb_rx_rcv++;
-
-  //  payload crc: 0x20
-  if((irqflags & 0x20) == 0x20) {
-    printf("CRC error\n");
-    WriteRegister(REG_IRQ_FLAGS, 0x20);
-    return false;
-
-  } else {
-    cp_nb_rx_ok++;
-    cp_nb_rx_ok_tot++;
-
-    uint8_t currentAddr = ReadRegister(REG_FIFO_RX_CURRENT_ADDR);
-    uint8_t receivedCount = ReadRegister(REG_RX_NB_BYTES);
-    *p_length = receivedCount;
-
-    WriteRegister(REG_FIFO_ADDR_PTR, currentAddr);
-
-    for(int i = 0; i < receivedCount; i++) {
-      payload[i] = ReadRegister(REG_FIFO);
-    }
-  }
-
-  return true;
-}
-
-char * PinName(int pin, char * buff) {
-  strcpy(buff, "unused");
-  if (pin != 0xff) {
-    sprintf(buff, "%d", pin);
-  }
-  return buff;
-}
-
-void SetupLoRa()
-{
-  char buff[16];
-
-  printf("Trying to detect module with ");
-  printf("NSS=%s "  , PinName(ssPin, buff));
-  printf("DIO0=%s " , PinName(dio0 , buff));
-  printf("Reset=%s ", PinName(RST  , buff));
-  
-  // check basic 
-  if (ssPin == 0xff || dio0 == 0xff) {
-    Die("Bad pin configuration ssPin and dio0 need at least to be defined");
-  }
-
-  digitalWrite(RST, LOW);
-  delay(100);
-  digitalWrite(RST, HIGH);
-  delay(100);
-  uint8_t version = ReadRegister(REG_VERSION);
-  if (version == 0x12) { // sx1276
-    printf("SX1276 detected, starting.\n");
-  } else {
-    printf("Transceiver version 0x%02X\n", version);
-    Die("Unrecognized transceiver");
-  }
-
-  WriteRegister(REG_OPMODE, SX72_MODE_SLEEP);
-
-  // set frequency
-  uint64_t frf = ((uint64_t)freq << 19) / 32000000;
-  WriteRegister(REG_FRF_MSB, (uint8_t)(frf >> 16) );
-  WriteRegister(REG_FRF_MID, (uint8_t)(frf >> 8) );
-  WriteRegister(REG_FRF_LSB, (uint8_t)(frf >> 0) );
-
-  WriteRegister(REG_SYNC_WORD, 0x34); // LoRaWAN public sync word
-
-  if (sf == SF11 || sf == SF12) {
-    WriteRegister(REG_MODEM_CONFIG3, 0x0C);
-  } else {
-    WriteRegister(REG_MODEM_CONFIG3, 0x04);
-  }
-  WriteRegister(REG_MODEM_CONFIG, 0x72);
-  WriteRegister(REG_MODEM_CONFIG2, (sf << 4) | 0x04);
-
-  if (sf == SF10 || sf == SF11 || sf == SF12) {
-    WriteRegister(REG_SYMB_TIMEOUT_LSB, 0x05);
-  } else {
-    WriteRegister(REG_SYMB_TIMEOUT_LSB, 0x08);
-  }
-  WriteRegister(REG_MAX_PAYLOAD_LENGTH, 0x80);
-  WriteRegister(REG_PAYLOAD_LENGTH, PAYLOAD_LENGTH);
-  WriteRegister(REG_HOP_PERIOD, 0xFF);
-  WriteRegister(REG_FIFO_ADDR_PTR, ReadRegister(REG_FIFO_RX_BASE_AD));
-
-  // Set Continous Receive Mode
-  WriteRegister(REG_LNA, LNA_MAX_GAIN);  // max lna gain
-  WriteRegister(REG_OPMODE, SX72_MODE_RX_CONTINUOS);
-}
-
-bool Receivepacket()
-{
-  long int SNR;
-  int rssicorr;
-  bool ret = false;
-
-  if (digitalRead(dio0) == 1) {
-    char message[256];
-    uint8_t length = 0;
-    if (ReceivePkt(message, &length)) {
-      // OK got one
-      ret = true;
-
-      uint8_t value = ReadRegister(REG_PKT_SNR_VALUE);
-      if (value & 0x80) { // The SNR sign bit is 1
-        // Invert and divide by 4
-        value = ((~value + 1) & 0xFF) >> 2;
-        SNR = -value;
-      } else {
-        // Divide by 4
-        SNR = ( value & 0xFF ) >> 2;
-      }
-
-      rssicorr = 157;
-
-      printf("Packet RSSI: %d, ", ReadRegister(0x1A) - rssicorr);
-      printf("RSSI: %d, ", ReadRegister(0x1B) - rssicorr);
-      printf("SNR: %li, ", SNR);
-      printf("Length: %hhu Message:'", length);
-      for (int i=0; i<length; i++) {
-        char c = (char) message[i];
-        printf("%c",isprint(c)?c:'.');
-      }
-      printf("'\n");
-
-      //TODO save the message in the database (don't process it. there will be a programm every hour or so that will process incoming data)
-      //create database row
-      //start database connection
-
-      fflush(stdout);
-    }
-  }
-
-  return ret;
-}*/
 
 int main()
 {
@@ -372,30 +125,23 @@ int main()
 
   // Init WiringPI
   wiringPiSetup() ;
-  /*pinMode(ssPin, OUTPUT);
-  pinMode(dio0, INPUT);
-  pinMode(RST, OUTPUT);*/
-
-  // Init SPI
-  //wiringPiSPISetup(SPI_CHANNEL, 500000);
 
   // Setup LORA
-  //SetupLoRa();
   LoRa.setPins(ssPin, RST, dio0);
 
-  if (LoRa.begin(freq))
-  {
-    printf("LoRa Initializing OK!\n");
-  }
-  else
-  {
-    printf("Starting LoRa failed!\n");
-  }
+  if (LoRa.begin(freq)) printf("LoRa Initializing OK!\n");
+  else printf("Starting LoRa failed!\n");
+
+  //set spreading factor
+  LoRa.setSpreadingFactor(sf);
+  //set signal bandwidth
+  LoRa.setSignalBandwidth(bw);
+
 
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
 
-  while(1) { //TODO instead use a interrupt?
+  while(1) {
     int packetSize = LoRa.parsePacket();
     if (packetSize)
     {

@@ -77,23 +77,6 @@ LoRaClass::LoRaClass() :
 
 int LoRaClass::begin(long frequency)
 {
-#if defined(ARDUINO_SAMD_MKRWAN1300) || defined(ARDUINO_SAMD_MKRWAN1310)
-  pinMode(LORA_IRQ_DUMB, OUTPUT);
-  digitalWrite(LORA_IRQ_DUMB, LOW);
-
-  // Hardware reset
-  pinMode(LORA_BOOT0, OUTPUT);
-  digitalWrite(LORA_BOOT0, LOW);
-
-  pinMode(LORA_RESET, OUTPUT);
-  digitalWrite(LORA_RESET, HIGH);
-  delay(200);
-  digitalWrite(LORA_RESET, LOW);
-  delay(200);
-  digitalWrite(LORA_RESET, HIGH);
-  delay(50);
-#endif
-
   // setup pins
   pinMode(_ss, OUTPUT);
   // set SS high
@@ -342,11 +325,6 @@ int LoRaClass::peek()
   return b;
 }
 
-void LoRaClass::flush()
-{
-}
-
-#ifndef ARDUINO_SAMD_MKRWAN1300
 void LoRaClass::onReceive(void(*callback)(int))
 {
   _onReceive = callback;
@@ -382,7 +360,6 @@ void LoRaClass::receive(int size)
 
   writeRegister(REG_OP_MODE, MODE_LONG_RANGE_MODE | MODE_RX_CONTINUOUS);
 }
-#endif
 
 void LoRaClass::idle()
 {
@@ -509,7 +486,7 @@ void LoRaClass::setSignalBandwidth(long sbw)
     bw = 7;
   } else if (sbw <= 250E3) {
     bw = 8;
-  } else /*if (sbw <= 250E3)*/ {
+  } else {
     bw = 9;
   }
 

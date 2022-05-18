@@ -41,14 +41,12 @@ public:
   int available();
   int read();
   int peek();
-  void flush();
 
-#ifndef ARDUINO_SAMD_MKRWAN1300
   void onReceive(void(*callback)(int));
   void onTxDone(void(*callback)());
 
   void receive(int size = 0);
-#endif
+
   void idle();
   void sleep();
 
