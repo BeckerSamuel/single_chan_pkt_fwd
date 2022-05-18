@@ -7,11 +7,14 @@ LIBS = -lwiringPi
 
 all: single_chan_pkt_fwd
 
-single_chan_pkt_fwd: single_chan_pkt_fwd.o
+single_chan_pkt_fwd: single_chan_pkt_fwd.o lora.o
 	$(CC) single_chan_pkt_fwd.o $(LIBS) -o single_chan_pkt_fwd
 
 single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
 	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
+
+lora.o: lora.cpp
+	$(CC) $(CFLAGS) lora.cpp
 
 clean:
 	rm *.o single_chan_pkt_fwd

@@ -705,4 +705,4 @@ ISR_PREFIX void LoRaClass::onDio0Rise()
   LoRa.handleDio0Rise();
 }
 
-LoRaClass LoRa = new LoRaClass();
+LoRaClass LoRa;
