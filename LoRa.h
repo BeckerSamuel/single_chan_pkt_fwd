@@ -9,6 +9,7 @@
 #include <stddef.h>
 #include <cstdint>
 #include <stdbool.h>
+#include <thread>
 
 #define SPI_CHANNEL                0
 #define LORA_DEFAULT_SPI_FREQUENCY 8E6 

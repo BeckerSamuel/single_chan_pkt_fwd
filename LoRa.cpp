@@ -3,8 +3,6 @@
 
 #include "LoRa.h"
 
-static const int SPI_CHANNEL = 0;
-
 // registers
 #define REG_FIFO                 0x00
 #define REG_OP_MODE              0x01
@@ -112,7 +110,6 @@ int LoRaClass::begin(long frequency)
   }
 
   // start SPI
-  //_spi->begin();
   wiringPiSPISetup(SPI_CHANNEL, LORA_DEFAULT_SPI_FREQUENCY);
 
   // check version
