@@ -66,6 +66,7 @@ LoRaClass::LoRaClass() :
   _implicitHeaderMode(0),
   _onReceive(NULL),
   _onTxDone(NULL)
+{}
 
 int LoRaClass::begin(long frequency)
 {
