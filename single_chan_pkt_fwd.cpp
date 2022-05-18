@@ -113,7 +113,7 @@ uint32_t freq = 868E6; // in Mhz! (868)
 struct LoRaMessage {
 	uint32_t deviceID;
 	uint8_t devicetype;
-	string message;
+	char message[255];
 	uint16_t checksum;
   uint8_t empty;
 };
@@ -121,7 +121,7 @@ struct LoRaMessage {
 void LoadConfiguration(string filename);
 void PrintConfiguration();
 void sendLoRa(struct LoRaMessage message);
-struct LoRaMessage getLoRa(void);
+void getLoRa(struct LoRaMessage message);
 
 int main()
 {
@@ -154,7 +154,7 @@ int main()
   printf("-----------------------------------\n");
 
   while(1) {
-    message = getLoRa(message);
+    getLoRa(&message);
     if(message.empty == 0) {
       message.message += "\n";
       printf(message.message);
@@ -280,20 +280,21 @@ void PrintConfiguration()
 //message (Get length)
 //Checksum (4 Byte)
 void sendLoRa(struct LoRaMessage message) {
-  string output = "";
+  uint8_t messageLength = strlen(message) + 14;
+  char output[messagelength] = { '\0' };
 
-	sprintf(output.c_str(), "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
+	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
 	
-	string check = "";
-	for(uint8_t i = 0; i < message.message.length(); i++) {
+	char check[5] = { '\0' };
+	for(uint8_t i = 0; i < strlen(output); i++) {
 		message.checksum += output[i];
 	}
-	sprintf(check.c_str(), "%04x", message.checksum);
+	sprintf(check, "%04x", message.checksum);
 	
 	output.append(check);
 
   LoRa.beginPacket();
-  LoRa.write(output, message.message.length());
+  LoRa.write(output, strlen(output));
   LoRa.endPacket();
 }
 
@@ -301,12 +302,16 @@ void sendLoRa(struct LoRaMessage message) {
 //Device type (2 Byte)
 //message (Get length)
 //Checksum (2 Byte)
-struct LoRaMessage getLoRa(struct LoRaMessage message) {
+void getLoRa(struct LoRaMessage *message) {
     uint8_t packetSize = LoRa.parsePacket();
     if (packetSize) {
-      string inputStr;
+      /*string inputStr;
       while(LoRa.available()) {
-        inputStr += LoRa.readString();
+        inputStr += LoRa.read();
+      }*/
+      char input[packetSize] = { '\0' }
+      for(uint8_t i = 0; i < packetSize; i++) {
+        input[i] = LoRa.read();
       }
   
       char pattern[18];
@@ -318,14 +323,14 @@ struct LoRaMessage getLoRa(struct LoRaMessage message) {
       pattern[strlen(pattern) - 3] = '%';
 
       //Split the incoming message
-      sscanf(inputStr.c_str(), pattern, &message.deviceID, &message.devicetype, message.message.c_str(), &message.checksum);
+      sscanf(input, pattern, &message->deviceID, &message->devicetype, message->message, &message->checksum);
 		
       uint16_t generated_checksum = 0;
       for(uint8_t i = 0; i < packetSize-2; i++) {
-        generated_checksum += inputStr[i];
+        generated_checksum += input[i];
       }
 		
-      if(generated_checksum == message.checksum) message.empty = 0;
+      if(generated_checksum == message->checksum) message->empty = 0;
     }
 
     return message;
