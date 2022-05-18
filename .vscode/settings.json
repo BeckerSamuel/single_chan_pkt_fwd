@@ -5,5 +5,12 @@
         "iostream": "cpp",
         "cstring": "cpp",
         "cstdint": "cpp"
-    }
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "e:\\Desktop\\Arduino\\Raspberry Pi\\LoRa\\single_chan_pkt_fwd",
+            "binaryPath": "e:\\Desktop\\Arduino\\Raspberry Pi\\LoRa\\single_chan_pkt_fwd\\single_chan_pkt_fwd",
+            "binaryArgs": []
+        }
+    ]
 }

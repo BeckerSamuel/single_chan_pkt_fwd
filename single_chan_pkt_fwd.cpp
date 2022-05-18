@@ -56,11 +56,11 @@
 #include <string>
 #include <vector>
 
-#include "LoRa.h"
-
 using namespace std;
 
 using namespace rapidjson;
+
+static const int SPI_CHANNEL = 0;
 
 uint32_t cp_nb_rx_rcv;
 uint32_t cp_nb_rx_ok;
@@ -113,7 +113,7 @@ uint32_t freq = 868E6; // in Mhz! (868)
 // #############################################
 // #############################################
 
-/*#define REG_FIFO                    0x00
+#define REG_FIFO                    0x00
 #define REG_FIFO_ADDR_PTR           0x0D
 #define REG_FIFO_TX_BASE_AD         0x0E
 #define REG_FIFO_RX_BASE_AD         0x0F
@@ -169,7 +169,7 @@ uint32_t freq = 868E6; // in Mhz! (868)
 
 #define FRF_MSB                  0xD9 // 868.1 Mhz
 #define FRF_MID                  0x06
-#define FRF_LSB                  0x66*/
+#define FRF_LSB                  0x66
 
 void LoadConfiguration(string filename);
 void PrintConfiguration();
@@ -180,7 +180,7 @@ void Die(const char *s)
   exit(1);
 }
 
-/*void SelectReceiver()
+void SelectReceiver()
 {
   digitalWrite(ssPin, LOW);
 }
@@ -339,15 +339,16 @@ bool Receivepacket()
 
       rssicorr = 157;
 
-      printf("Packet RSSI: %d, ", ReadRegister(0x1A) - rssicorr);
-      printf("RSSI: %d, ", ReadRegister(0x1B) - rssicorr);
-      printf("SNR: %li, ", SNR);
-      printf("Length: %hhu Message:'", length);
-      for (int i=0; i<length; i++) {
+      printf("Packet RSSI: %d, \n", ReadRegister(0x1A) - rssicorr);
+      printf("RSSI: %d, \n", ReadRegister(0x1B) - rssicorr);
+      printf("SNR: %li, \n", SNR);
+      printf("Length: %hhu\n", length);
+      printf("Message:'%s'\n", message);
+      /*for (int i=0; i<length; i++) {
         char c = (char) message[i];
         printf("%c",isprint(c)?c:'.');
       }
-      printf("'\n");
+      printf("'\n");*/
 
       //TODO save the message in the database (don't process it. there will be a programm every hour or so that will process incoming data)
       //create database row
@@ -358,7 +359,7 @@ bool Receivepacket()
   }
 
   return ret;
-}*/
+}
 
 int main()
 {
@@ -371,55 +372,31 @@ int main()
   //TODO create database if not yet created
 
   // Init WiringPI
-  wiringPiSetup() ;
-  /*pinMode(ssPin, OUTPUT);
+  wiringPiSetup();
+  pinMode(ssPin, OUTPUT);
   pinMode(dio0, INPUT);
-  pinMode(RST, OUTPUT);*/
+  pinMode(RST, OUTPUT);
 
   // Init SPI
-  //wiringPiSPISetup(SPI_CHANNEL, 500000);
+  wiringPiSPISetup(SPI_CHANNEL, 500000);
 
   // Setup LORA
-  //SetupLoRa();
-  LoRa.setPins(ssPin, RST, dio0);
-
-  if (LoRa.begin(freq))
-  {
-    printf("LoRa Initializing OK!");
-  }
-  else
-  {
-    printf("Starting LoRa failed!");
-  }
+  SetupLoRa();
 
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
 
   while(1) { //TODO instead use a interrupt?
     // Packet received ?
-    /*if (Receivepacket()) {
+    if (Receivepacket()) {
       //TODOwe received a packet, what to do now?
-    }*/
-
-    int packetSize = LoRa.parsePacket();
-    if (packetSize)
-    {
-      string outputStr;
-      while (LoRa.available())
-      {
-        outputStr += LoRa.read(); //LoRa.readString()
-      }
-
-      printf(outputStr.c_str());
-
-      packetSize = 0;
+      printf("package received!\n")
     }
-
 
     gettimeofday(&nowtime, NULL);
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
     if (nowseconds - lasttime >= 30) {
-      printf("I'm alive!");
+      printf("I'm alive!\n");
       lasttime = nowseconds;
       cp_nb_rx_rcv = 0;
       cp_nb_rx_ok = 0;
