@@ -110,7 +110,7 @@ SpreadingFactor_t sf = SF7;
 uint16_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
 
-Class LoRaMessage {
+struct LoRaMessage {
 	uint32_t deviceID;
 	uint8_t devicetype;
 	string message;
@@ -126,7 +126,7 @@ struct LoRaMessage getLoRa(void);
 int main()
 {
   uint32_t lasttime = 0;
-  struct timeval *nowtime;
+  struct timeval nowtime;
   struct LoRaMessage message;
   message.empty = 1;
 
@@ -154,7 +154,7 @@ int main()
   printf("-----------------------------------\n");
 
   while(1) {
-    message = getLoRa();
+    message = getLoRa(message);
     if(message.empty == 0) {
       message.message += "\n";
       printf(message.message);
@@ -285,7 +285,7 @@ void sendLoRa(struct LoRaMessage message) {
 	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
 	
 	string check = "";
-	for(uint8_t i = 0; ) {
+	for(uint8_t i = 0; i < message.message.length(); i++) {
 		message.checksum += output[i];
 	}
 	sprintf(check, "%04x", message.checksum);
@@ -293,7 +293,7 @@ void sendLoRa(struct LoRaMessage message) {
 	output.append(check);
 
   LoRa.beginPacket();
-  LoRa.write(output, outPtr);
+  LoRa.write(output, message.message.length());
   LoRa.endPacket();
 }
 
@@ -304,7 +304,7 @@ void sendLoRa(struct LoRaMessage message) {
 struct LoRaMessage getLoRa(struct LoRaMessage message) {
     uint8_t packetSize = LoRa.parsePacket();
     if (packetSize) {
-      String inputStr;
+      string inputStr;
       while(LoRa.available()) {
         inputStr += LoRa.readString();
       }
@@ -318,7 +318,6 @@ struct LoRaMessage getLoRa(struct LoRaMessage message) {
       pattern[strlen(pattern) - 3] = '%';
 
       //Split the incoming message
-		  struct LoRaMessage message;
       sscanf(inputStr.c_str(), pattern, &message.deviceID, &message.devicetype, message.message, &message.checksum);
 		
       uint16_t generated_checksum = 0;
