@@ -3,6 +3,8 @@
 
 #include "LoRa.h"
 
+static const int SPI_CHANNEL = 0;
+
 // registers
 #define REG_FIFO                 0x00
 #define REG_OP_MODE              0x01
@@ -111,7 +113,7 @@ int LoRaClass::begin(long frequency)
 
   // start SPI
   //_spi->begin();
-  wiringPiSPISetup(LORA_DEFAULT_SPI, LORA_DEFAULT_SPI_FREQUENCY);
+  wiringPiSPISetup(SPI_CHANNEL, LORA_DEFAULT_SPI_FREQUENCY);
 
   // check version
   uint8_t version = readRegister(REG_VERSION);
@@ -354,15 +356,16 @@ void LoRaClass::onReceive(void(*callback)(int))
 
   if (callback) {
     pinMode(_dio0, INPUT);
-#ifdef SPI_HAS_NOTUSINGINTERRUPT
-    SPI.usingInterrupt(digitalPinToInterrupt(_dio0));
-#endif
-    attachInterrupt(digitalPinToInterrupt(_dio0), LoRaClass::onDio0Rise, RISING);
+//#ifdef SPI_HAS_NOTUSINGINTERRUPT
+    //SPI.usingInterrupt(digitalPinToInterrupt(_dio0));
+//#endif
+    wiringPiISR (_dio0, INT_EDGE_RISING,  LoRaClass::onDio0Rise);
+    //attachInterrupt(digitalPinToInterrupt(_dio0), LoRaClass::onDio0Rise, RISING);
   } else {
-    detachInterrupt(digitalPinToInterrupt(_dio0));
-#ifdef SPI_HAS_NOTUSINGINTERRUPT
-    SPI.notUsingInterrupt(digitalPinToInterrupt(_dio0));
-#endif
+    //detachInterrupt(digitalPinToInterrupt(_dio0));
+//#ifdef SPI_HAS_NOTUSINGINTERRUPT
+    //SPI.notUsingInterrupt(digitalPinToInterrupt(_dio0));
+//#endif
   }
 }
 
@@ -693,7 +696,7 @@ uint8_t LoRaClass::singleTransfer(uint8_t address, uint8_t value)
 
   digitalWrite(_ss, LOW);
 
-  wiringPiSPIDataRW(LORA_DEFAULT_SPI, spibuf, 2);
+  wiringPiSPIDataRW(SPI_CHANNEL, spibuf, 2);
 
   digitalWrite(_ss, HIGH);
 
@@ -703,6 +706,16 @@ uint8_t LoRaClass::singleTransfer(uint8_t address, uint8_t value)
 ISR_PREFIX void LoRaClass::onDio0Rise()
 {
   LoRa.handleDio0Rise();
+}
+
+void LoRaClass::bitWrite(uint8_t &x, unsigned int n, bool b) {
+    if (n <= 7 && n >= 0) {
+        if (b) {
+            x |= (1u << n);
+        } else {
+            x &= ~(1u << n);
+        }
+    }    
 }
 
 LoRaClass LoRa;
