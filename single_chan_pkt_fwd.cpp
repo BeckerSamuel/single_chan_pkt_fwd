@@ -110,13 +110,23 @@ SpreadingFactor_t sf = SF7;
 uint16_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
 
+struct LoRaMessage {
+	uint32_t deviceID,
+	uint8_t devicetype,
+	std::string message,
+	uint16_t checksum
+}
+
 void LoadConfiguration(string filename);
 void PrintConfiguration();
+void sendLoRa(struct LoRaMessage message);
+struct LoRaMessage getLoRa(void);
 
 int main()
 {
-  struct timeval nowtime;
-  uint32_t lasttime;
+  uint32_t lasttime = 0;
+  struct timeval *nowtime = NULL;
+  struct LoRaMessage message = NULL;
 
   LoadConfiguration("global_conf.json");
   PrintConfiguration();
@@ -142,7 +152,19 @@ int main()
   printf("-----------------------------------\n");
 
   while(1) {
-    int packetSize = LoRa.parsePacket();
+    message = getLoRa();
+    if(message != NULL) {
+      message.message += "\n";
+      printf(message.message);
+      //TODO save the message in the db
+      //TODO check if there is a new config
+      //TODO answer the device with ok/or the config
+
+      message.message = "OK"
+      sendLoRa(message);
+      message = NULL;
+    }
+    /*int packetSize = LoRa.parsePacket();
     if (packetSize)
     {
       string outputStr;
@@ -156,7 +178,7 @@ int main()
       printf(outputStr.c_str());
 
       packetSize = 0;
-    }
+    }*/
 
 
     gettimeofday(&nowtime, NULL);
@@ -246,4 +268,68 @@ void PrintConfiguration()
   printf("Gateway Configuration\n");
   printf("  Host=%s\n  DB-Raw-Messages=%s\n  DB-Device-Config=%s\n  User=%s\n  Password=%s\n", host.c_str(), db_raw_messages.c_str(), db_device_config.c_str(), user.c_str(), passwd.c_str());
   printf("  Latitude=%.8f\n  Longitude=%.8f\n  Altitude=%d\n", lat, lon, alt);
+}
+
+#
+# LORA CRYPTING
+#
+//Device id (8 Byte)
+//Device type (2 Byte)
+//message (Get length)
+//Checksum (4 Byte)
+void sendLoRa(struct LoRaMessage message) {
+    std::string output = "";
+
+	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
+	
+	std::string check = "";
+	for(uint8_t i = 0; ) {
+		message.checksum += output[i];
+	}
+	sprintf(check, "%04x", message.checksum);
+	
+	output.append(check);
+
+    LoRa.beginPacket();
+    LoRa.write(output, outPtr);
+    LoRa.endPacket();
+}
+
+//Device id (8 Byte)
+//Device type (2 Byte)
+//message (Get length)
+//Checksum (2 Byte)
+struct LoRaMessage getLoRa(void) {
+    uint8_t packetSize = LoRa.parsePacket();
+    if (packetSize) {
+        String inputStr;
+        while(LoRa.available()) {
+			inputStr += LoRa.readString();
+        }
+		
+        char pattern[18];
+        uint8_t messageSize = packetSize - 12;
+        sprintf(pattern, "t8xlt2dt%dst4x", messageSize);
+        pattern[0] = '%';
+        pattern[4] = '%';
+        pattern[8] = '%';
+        pattern[strlen(pattern) - 3] = '%';
+
+        //Split the incoming message
+		struct LoRaMessage message;
+        sscanf(inputStr.c_str(), pattern, &message.deviceID, &message.devicetype, message.message, &message.checksum);
+		
+		uint16_t generated_checksum = 0;
+		for(uint8_t i = 0; i < packetSize-2; i++) {
+			generated_checksum += inputStr[i];
+		}
+		
+		if(generated_checksum == message.checksum) {
+			return message;
+		} else {
+			return NULL;
+		}
+    } else {
+        return NULL;
+    }
 }
