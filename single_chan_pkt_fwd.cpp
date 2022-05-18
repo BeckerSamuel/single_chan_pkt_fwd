@@ -62,8 +62,6 @@ using namespace std;
 
 using namespace rapidjson;
 
-static const int SPI_CHANNEL = 0;
-
 uint32_t cp_nb_rx_rcv;
 uint32_t cp_nb_rx_ok;
 uint32_t cp_nb_rx_ok_tot;
@@ -379,7 +377,7 @@ int main()
   pinMode(RST, OUTPUT);*/
 
   // Init SPI
-  wiringPiSPISetup(SPI_CHANNEL, 500000);
+  //wiringPiSPISetup(SPI_CHANNEL, 500000);
 
   // Setup LORA
   //SetupLoRa();

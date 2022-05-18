@@ -8,6 +8,7 @@
 #include <wiringPiSPI.h>
 #include <stddef.h>
 #include <cstdint>
+#include <stdbool.h>
 
 #define SPI_CHANNEL                0
 #define LORA_DEFAULT_SPI_FREQUENCY 8E6 
@@ -72,8 +73,6 @@ public:
 
   void setPins(int ss = LORA_DEFAULT_SS_PIN, int reset = LORA_DEFAULT_RESET_PIN, int dio0 = LORA_DEFAULT_DIO0_PIN);
 
-  //void dumpRegisters(Stream& out);
-
 private:
   void explicitHeaderMode();
   void implicitHeaderMode();
@@ -92,7 +91,7 @@ private:
 
   static void onDio0Rise();
 
-  void LoRaClass::bitWrite(uint8_t &x, unsigned int n, bool b)
+  void bitWrite(uint8_t &x, unsigned int n, bool b);
 
 private:
   int _ss;
