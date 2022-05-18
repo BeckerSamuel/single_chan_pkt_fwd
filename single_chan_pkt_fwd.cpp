@@ -409,7 +409,7 @@ int main()
       string outputStr;
       while (LoRa.available())
       {
-        outputStr += LoRa.readString();
+        outputStr += LoRa.read(); //LoRa.readString()
       }
 
       printf(outputStr);

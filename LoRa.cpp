@@ -618,7 +618,7 @@ void LoRaClass::setPins(int ss, int reset, int dio0)
   _dio0 = dio0;
 }
 
-void LoRaClass::dumpRegisters(Stream& out)
+/*void LoRaClass::dumpRegisters(Stream& out)
 {
   for (int i = 0; i < 128; i++) {
     out.print("0x");
@@ -626,7 +626,7 @@ void LoRaClass::dumpRegisters(Stream& out)
     out.print(": 0x");
     out.println(readRegister(i), HEX);
   }
-}
+}*/
 
 void LoRaClass::explicitHeaderMode()
 {
