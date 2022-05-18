@@ -107,7 +107,7 @@ int   alt =  0;
 // Set spreading factor (SF7 - SF12), &nd  center frequency
 // Overwritten by the ones set in global_conf.json
 SpreadingFactor_t sf = SF7;
-uint16_t bw = 125E3;
+uint32_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
 
 struct LoRaMessage {
@@ -127,8 +127,10 @@ int main()
 {
   uint32_t lasttime = 0;
   struct timeval nowtime;
-  struct LoRaMessage message;
-  message.empty = 1;
+  struct LoRaMessage *message;
+  // allocating memory for n numbers of struct person
+  message = (struct LoRaMessage*) malloc(sizeof(struct LoRaMessage));
+  message->empty = 1;
 
   LoadConfiguration("global_conf.json");
   PrintConfiguration();
@@ -154,34 +156,18 @@ int main()
   printf("-----------------------------------\n");
 
   while(1) {
-    getLoRa(&message);
-    if(message.empty == 0) {
-      message.message += "\n";
-      printf(message.message);
+    getLoRa(message);
+    if(message->empty == 0) {
+      strcat(message->message, "\n");
+      printf(message->message);
       //TODO save the message in the db
       //TODO check if there is a new config
       //TODO answer the device with ok/or the config
 
-      message.message = "OK";
+      message->message = "OK\n";
       sendLoRa(message);
-      message.empty = 1;
+      message->empty = 1;
     }
-    /*int packetSize = LoRa.parsePacket();
-    if (packetSize)
-    {
-      string outputStr;
-      while (LoRa.available())
-      {
-        outputStr += LoRa.read();
-      }
-
-      outputStr += "\n";
-
-      printf(outputStr.c_str());
-
-      packetSize = 0;
-    }*/
-
 
     gettimeofday(&nowtime, NULL);
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
@@ -279,17 +265,17 @@ void PrintConfiguration()
 //Device type (2 Byte)
 //message (Get length)
 //Checksum (4 Byte)
-void sendLoRa(struct LoRaMessage message) {
-  uint8_t messageLength = strlen(message) + 14;
+void sendLoRa(struct LoRaMessage *message) {
+  uint8_t messageLength = strlen(message->message) + 14;
   char output[messagelength] = { '\0' };
 
-	sprintf(output, "%08xl%02d%s", message.deviceID, message.devicetype, message.message);
+	sprintf(output, "%08xl%02d%s", message->deviceID, message->devicetype, message->message);
 	
 	char check[5] = { '\0' };
 	for(uint8_t i = 0; i < strlen(output); i++) {
-		message.checksum += output[i];
+		message->checksum += output[i];
 	}
-	sprintf(check, "%04x", message.checksum);
+	sprintf(check, "%04x", message->checksum);
 	
 	output.append(check);
 
