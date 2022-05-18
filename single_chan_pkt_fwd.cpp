@@ -412,7 +412,7 @@ int main()
         outputStr += LoRa.read(); //LoRa.readString()
       }
 
-      printf(outputStr);
+      printf(outputStr.c_str());
 
       packetSize = 0;
     }
