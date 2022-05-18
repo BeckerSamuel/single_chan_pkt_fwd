@@ -64,8 +64,6 @@
 #endif
 
 LoRaClass::LoRaClass() :
-  //_spiSettings(LORA_DEFAULT_SPI_FREQUENCY, MSBFIRST, SPI_MODE0),
-  //_spi(&LORA_DEFAULT_SPI),
   _ss(LORA_DEFAULT_SS_PIN), _reset(LORA_DEFAULT_RESET_PIN), _dio0(LORA_DEFAULT_DIO0_PIN),
   _frequency(0),
   _packetIndex(0),
@@ -620,16 +618,6 @@ void LoRaClass::setPins(int ss, int reset, int dio0)
   _dio0 = dio0;
 }
 
-/*void LoRaClass::setSPI(SPIClass& spi)
-{
-  _spi = &spi;
-}
-
-void LoRaClass::setSPIFrequency(uint32_t frequency)
-{
-  _spiSettings = SPISettings(frequency, MSBFIRST, SPI_MODE0);
-}*/
-
 void LoRaClass::dumpRegisters(Stream& out)
 {
   for (int i = 0; i < 128; i++) {
@@ -704,11 +692,6 @@ uint8_t LoRaClass::singleTransfer(uint8_t address, uint8_t value)
   spibuf[1] = value;
 
   digitalWrite(_ss, LOW);
-
-  /*_spi->beginTransaction(_spiSettings);
-  _spi->transfer(address);
-  response = _spi->transfer(value);
-  _spi->endTransaction();*/
 
   wiringPiSPIDataRW(LORA_DEFAULT_SPI, spibuf, 2);
 

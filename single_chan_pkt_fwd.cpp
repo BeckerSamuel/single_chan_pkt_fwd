@@ -406,13 +406,13 @@ int main()
     int packetSize = LoRa.parsePacket();
     if (packetSize)
     {
-      String outputStr;
+      string outputStr;
       while (LoRa.available())
       {
         outputStr += LoRa.readString();
       }
 
-      Serial.println(outputStr);
+      printf(outputStr);
 
       packetSize = 0;
     }

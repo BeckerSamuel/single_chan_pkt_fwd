@@ -30,7 +30,7 @@
 #define PA_OUTPUT_RFO_PIN          0
 #define PA_OUTPUT_PA_BOOST_PIN     1
 
-class LoRaClass /*: public Stream*/ {
+class LoRaClass {
 public:
   LoRaClass();
 
@@ -45,15 +45,13 @@ public:
   float packetSnr();
   long packetFrequencyError();
 
-  // from Print
-  virtual size_t write(uint8_t byte);
-  virtual size_t write(const uint8_t *buffer, size_t size);
+  size_t write(uint8_t byte);
+  size_t write(const uint8_t *buffer, size_t size);
 
-  // from Stream
-  virtual int available();
-  virtual int read();
-  virtual int peek();
-  virtual void flush();
+  int available();
+  int read();
+  int peek();
+  void flush();
 
 #ifndef ARDUINO_SAMD_MKRWAN1300
   void onReceive(void(*callback)(int));
@@ -85,8 +83,6 @@ public:
   uint8_t random();
 
   void setPins(int ss = LORA_DEFAULT_SS_PIN, int reset = LORA_DEFAULT_RESET_PIN, int dio0 = LORA_DEFAULT_DIO0_PIN);
-  //void setSPI(SPIClass& spi);
-  //void setSPIFrequency(uint32_t frequency);
 
   void dumpRegisters(Stream& out);
 
@@ -109,8 +105,6 @@ private:
   static void onDio0Rise();
 
 private:
-  //SPISettings _spiSettings;
-  //SPIClass* _spi;
   int _ss;
   int _reset;
   int _dio0;
