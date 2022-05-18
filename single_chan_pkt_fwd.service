@@ -5,8 +5,8 @@ After=network.target
 
 [Service]
 Type=simple
-WorkingDirectory=/home/pi/single_chan_pkt_fwd/
-ExecStart=/home/pi/single_chan_pkt_fwd/single_chan_pkt_fwd 
+WorkingDirectory=/home/Socrate2/single_chan_pkt_fwd/
+ExecStart=/home/Socrate2/single_chan_pkt_fwd/single_chan_pkt_fwd 
 Restart=on-failure
 RestartSec=5
 

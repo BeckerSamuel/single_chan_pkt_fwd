@@ -56,8 +56,6 @@
 #include <string>
 #include <vector>
 
-#include "LoRa.h"
-
 using namespace std;
 
 using namespace rapidjson;
@@ -115,7 +113,7 @@ uint32_t freq = 868E6; // in Mhz! (868)
 // #############################################
 // #############################################
 
-/*#define REG_FIFO                    0x00
+#define REG_FIFO                    0x00
 #define REG_FIFO_ADDR_PTR           0x0D
 #define REG_FIFO_TX_BASE_AD         0x0E
 #define REG_FIFO_RX_BASE_AD         0x0F
@@ -171,7 +169,7 @@ uint32_t freq = 868E6; // in Mhz! (868)
 
 #define FRF_MSB                  0xD9 // 868.1 Mhz
 #define FRF_MID                  0x06
-#define FRF_LSB                  0x66*/
+#define FRF_LSB                  0x66
 
 void LoadConfiguration(string filename);
 void PrintConfiguration();
@@ -182,7 +180,7 @@ void Die(const char *s)
   exit(1);
 }
 
-/*void SelectReceiver()
+void SelectReceiver()
 {
   digitalWrite(ssPin, LOW);
 }
@@ -360,7 +358,7 @@ bool Receivepacket()
   }
 
   return ret;
-}*/
+}
 
 int main()
 {
@@ -373,55 +371,29 @@ int main()
   //TODO create database if not yet created
 
   // Init WiringPI
-  wiringPiSetup() ;
+  wiringPiSetup();
   /*pinMode(ssPin, OUTPUT);
   pinMode(dio0, INPUT);
   pinMode(RST, OUTPUT);*/
 
   // Init SPI
-  wiringPiSPISetup(SPI_CHANNEL, 500000);
+  //wiringPiSPISetup(SPI_CHANNEL, 500000);
 
   // Setup LORA
-  //SetupLoRa();
-  LoRa.setPins(ssPin, RST, dio0);
-
-  if (LoRa.begin(freq))
-  {
-    printf("LoRa Initializing OK!");
-  }
-  else
-  {
-    printf("Starting LoRa failed!");
-  }
+  SetupLoRa();
 
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
 
   while(1) { //TODO instead use a interrupt?
     // Packet received ?
-    /*if (Receivepacket()) {
+    if (Receivepacket()) {
       //TODOwe received a packet, what to do now?
-    }*/
-
-    int packetSize = LoRa.parsePacket();
-    if (packetSize)
-    {
-      String outputStr;
-      while (LoRa.available())
-      {
-        outputStr += LoRa.readString();
-      }
-
-      Serial.println(outputStr);
-
-      packetSize = 0;
     }
-
 
     gettimeofday(&nowtime, NULL);
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
     if (nowseconds - lasttime >= 30) {
-      print("I'm alive!")
       lasttime = nowseconds;
       cp_nb_rx_rcv = 0;
       cp_nb_rx_ok = 0;
