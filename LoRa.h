@@ -6,7 +6,7 @@
 
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
-#include <cstddef.h>
+#include <stddef.h>
 #include <cstdint>
 
 #define SPI_CHANNEL                0
