@@ -57,11 +57,7 @@
 
 #define MAX_PKT_LENGTH           255
 
-#if (ESP8266 || ESP32)
-    #define ISR_PREFIX ICACHE_RAM_ATTR
-#else
-    #define ISR_PREFIX
-#endif
+#define ISR_PREFIX
 
 LoRaClass::LoRaClass() :
   _ss(LORA_DEFAULT_SS_PIN), _reset(LORA_DEFAULT_RESET_PIN), _dio0(LORA_DEFAULT_DIO0_PIN),
@@ -70,10 +66,6 @@ LoRaClass::LoRaClass() :
   _implicitHeaderMode(0),
   _onReceive(NULL),
   _onTxDone(NULL)
-{
-  // overide Stream timeout value
-  //setTimeout(0);
-}
 
 int LoRaClass::begin(long frequency)
 {
