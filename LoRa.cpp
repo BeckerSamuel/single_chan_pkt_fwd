@@ -72,7 +72,7 @@ LoRaClass::LoRaClass() :
   _onTxDone(NULL)
 {
   // overide Stream timeout value
-  setTimeout(0);
+  //setTimeout(0);
 }
 
 int LoRaClass::begin(long frequency)
@@ -705,4 +705,4 @@ ISR_PREFIX void LoRaClass::onDio0Rise()
   LoRa.handleDio0Rise();
 }
 
-LoRaClass LoRa;
+LoRaClass LoRa = new LoRaClass();
