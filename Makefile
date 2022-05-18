@@ -13,8 +13,8 @@ single_chan_pkt_fwd: single_chan_pkt_fwd.o lora.o
 single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
 	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
 
-lora.o: lora.cpp
-	$(CC) $(CFLAGS) lora.cpp
+lora.o: LoRa.cpp
+	$(CC) $(CFLAGS) LoRa.cpp
 
 clean:
 	rm *.o single_chan_pkt_fwd
