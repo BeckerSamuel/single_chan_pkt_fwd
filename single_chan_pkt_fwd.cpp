@@ -120,8 +120,8 @@ struct LoRaMessage {
 
 void LoadConfiguration(string filename);
 void PrintConfiguration();
-void sendLoRa(struct LoRaMessage message);
-void getLoRa(struct LoRaMessage message);
+void sendLoRa(struct LoRaMessage *message);
+void getLoRa(struct LoRaMessage *message);
 
 int main()
 {
@@ -267,7 +267,7 @@ void PrintConfiguration()
 //Checksum (4 Byte)
 void sendLoRa(struct LoRaMessage *message) {
   uint8_t messageLength = strlen(message->message) + 14;
-  char output[messagelength] = { '\0' };
+  char output[messageLength] = { '\0' };
 
 	sprintf(output, "%08xl%02d%s", message->deviceID, message->devicetype, message->message);
 	
@@ -277,10 +277,10 @@ void sendLoRa(struct LoRaMessage *message) {
 	}
 	sprintf(check, "%04x", message->checksum);
 	
-	output.append(check);
+	strcat(output, check);
 
   LoRa.beginPacket();
-  LoRa.write(output, strlen(output));
+  LoRa.write((uint8_t *) output, messageLength);
   LoRa.endPacket();
 }
 
@@ -291,11 +291,7 @@ void sendLoRa(struct LoRaMessage *message) {
 void getLoRa(struct LoRaMessage *message) {
     uint8_t packetSize = LoRa.parsePacket();
     if (packetSize) {
-      /*string inputStr;
-      while(LoRa.available()) {
-        inputStr += LoRa.read();
-      }*/
-      char input[packetSize] = { '\0' }
+      char input[packetSize] = { '\0' };
       for(uint8_t i = 0; i < packetSize; i++) {
         input[i] = LoRa.read();
       }
