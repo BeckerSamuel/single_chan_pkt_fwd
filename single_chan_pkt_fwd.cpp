@@ -62,12 +62,7 @@ using namespace std;
 
 using namespace rapidjson;
 
-uint32_t cp_nb_rx_rcv;
-uint32_t cp_nb_rx_ok;
-uint32_t cp_nb_rx_ok_tot;
-uint32_t cp_nb_rx_bad;
-uint32_t cp_nb_rx_nocrc;
-uint32_t cp_up_pkt_fwd;
+#define BUFFER_SIZE 1000
 
 typedef enum SpreadingFactors
 {
@@ -113,10 +108,13 @@ uint32_t freq = 868E6; // in Mhz! (868)
 uint8_t encryptKey = 0;
 uint8_t decryptKey = 0;
 
+map<int, string> configs;
+
 struct LoRaMessage {
 	uint64_t deviceID;
 	uint8_t deviceType;
 	char message[255];
+  int16_t rssi;
   uint8_t empty;
 };
 
@@ -124,16 +122,24 @@ void LoadConfiguration(string filename);
 void PrintConfiguration();
 void sendLoRa(struct LoRaMessage *message);
 void getLoRa(struct LoRaMessage *message);
+unsigned char encryptChar(unsigned char message);
+unsigned char decryptChar(unsigned char cypher);
 
 int main()
 {
   uint32_t lasttime = 0;
   struct timeval nowtime;
-  struct LoRaMessage *message;
-  // allocating memory for n numbers of struct person
-  message = (struct LoRaMessage*) malloc(sizeof(struct LoRaMessage));
-  message->empty = 1;
-
+  struct LoRaMessage *messageIn;
+  messageIn = (struct LoRaMessage*) malloc(BUFFER_SIZE * sizeof(struct LoRaMessage));
+  for(uint16_t i = 0; i < BUFFER_SIZE; i++) {
+    (messageIn+pos)->empty = 1;
+  }
+  struct LoRaMessage *messageOut;
+  messageOut = (struct LoRaMessage*) malloc(sizeof(struct LoRaMessage));
+  messageOut->empty = 1;
+  uint16_t pos = 0;
+  bool toggle = true;
+  
   LoadConfiguration("global_conf.json");
   PrintConfiguration();
 
@@ -157,32 +163,38 @@ int main()
   printf("-----------------------------------\n");
 
   while(1) {
-    getLoRa(message);
-    if(message->empty == 0) {
-      strcat(message->message, "\n");
-      printf(message->message);
-      //TODO save the message in the db
-      //TODO check if there is a new config
-      //TODO answer the device with ok/or the config
+    getLoRa(messageIn+pos);
+    if((messageIn+pos)->empty == 0) {
+      (messageIn+pos)->empty = 1;
+      printf("%s\n", (messageIn+pos)->message);
 
-      strcpy(message->message, "OK\n");
-      sendLoRa(message);
-      message->empty = 1;
-    }
-
-    uint8_t packetSize = LoRa.parsePacket();
-    if (packetSize) {
-      printf("Received Message outside Func!\n");
+      string config = configs[(messageIn+pos)->deviceID];
+      if(config != NULL) {
+        memcpy(messageOut, (messageIn+pos), sizeof(struct LoRaMessage));
+        strcpy(messageOut->message, config);
+        sendLoRa(messageOut);
+      }
+      pos++;
     }
 
     gettimeofday(&nowtime, NULL);
     uint32_t nowseconds = (uint32_t)(nowtime.tv_sec);
-    if (nowseconds - lasttime >= 30) {
-      printf("I'm alive!\n");
+    if (nowseconds - lasttime >= 900) { //save data in the database every 30 minutes and get new config also every 30 minutes (wait 15 minutes between the both)
       lasttime = nowseconds;
-      cp_nb_rx_rcv = 0;
-      cp_nb_rx_ok = 0;
-      cp_up_pkt_fwd = 0;
+      
+      printf("I'm alive!\n");
+
+      if(toggle) { //save data in database
+        string database_input = "";
+        for(uint8_t i = 0; i < pos; pos++) {
+          //transform
+          //database_input += received data
+        }
+        toggle = false;
+      } else { //get new configs from the database
+
+        toggle = true;
+      }
     }
 
     // Let some time to the OS
@@ -342,9 +354,13 @@ void getLoRa(struct LoRaMessage *message) {
         message->deviceType = decryptChar(input[ptr++]);
 
         //message (messageLength Byte)
-        for(uint8_t i = 0; i < (packetSize - 11); i++) {
+        uint8_t i = 0;
+        for(i = 0; i < (packetSize - 11); i++) {
           message->message[i] = decryptChar(input[ptr++]);
         }
+        message->message[i] = '\0';
+
+        message->rssi = LoRa.packetRssi();
 
         message->empty = 0;
       }

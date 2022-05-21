@@ -4,7 +4,8 @@
         "*.tcc": "cpp",
         "iostream": "cpp",
         "cstring": "cpp",
-        "cstdint": "cpp"
+        "cstdint": "cpp",
+        "system_error": "cpp"
     },
     "makefile.launchConfigurations": [
         {
