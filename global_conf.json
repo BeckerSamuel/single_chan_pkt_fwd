@@ -2,10 +2,13 @@
   "SX127x_conf":
   {
     "freq": 868000000,
-    "spread_factor": 12,
+    "spread_factor": 7,
+    "bandwidth": 125000,
     "pin_nss": 10,
     "pin_dio0": 6,
-    "pin_rst": 3
+    "pin_rst": 3,
+    "encrypt_key": 83,
+    "decrypt_key": 219
   },
   "database":
   {

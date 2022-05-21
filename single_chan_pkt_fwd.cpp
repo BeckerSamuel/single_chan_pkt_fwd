@@ -110,11 +110,13 @@ SpreadingFactor_t sf = SF7;
 uint32_t bw = 125E3;
 uint32_t freq = 868E6; // in Mhz! (868)
 
+uint8_t encryptKey = 0;
+uint8_t decryptKey = 0;
+
 struct LoRaMessage {
-	uint32_t deviceID;
-	uint8_t devicetype;
+	uint64_t deviceID;
+	uint8_t deviceType;
 	char message[255];
-	uint16_t checksum;
   uint8_t empty;
 };
 
@@ -150,13 +152,6 @@ int main()
   LoRa.setSpreadingFactor(sf);
   //set signal bandwidth
   LoRa.setSignalBandwidth(bw);
-
-
-  uint32_t bwret = LoRa.getSignalBandwidth();
-  printf("%d\n", bwret);
-  uint32_t sprret = LoRa.getSpreadingFactor();
-  printf("%d\n", sprret);
-
 
   printf("Listening at SF%i on %.6lf Mhz.\n", sf,(double)freq/1000000);
   printf("-----------------------------------\n");
@@ -217,12 +212,18 @@ void LoadConfiguration(string configurationFile)
             freq = confIt->value.GetUint();
           } else if (key.compare("spread_factor") == 0) {
             sf = (SpreadingFactor_t)confIt->value.GetUint();
+          } else if (key.compare("bandwidth") == 0) {
+            bw = confIt->value.GetUint();
           } else if (key.compare("pin_nss") == 0) {
             ssPin = confIt->value.GetUint();
           } else if (key.compare("pin_dio0") == 0) {
             dio0 = confIt->value.GetUint();
           } else if (key.compare("pin_rst") == 0) {
             RST = confIt->value.GetUint();
+          } else if (key.compare("encrypt_key") == 0) {
+            encryptKey = confIt->value.GetUint();
+          } else if (key.compare("decrypt_key") == 0) {
+            decryptKey = confIt->value.GetUint();
           }
         }
       }
@@ -272,58 +273,88 @@ void PrintConfiguration()
 //#
 //# LORA CRYPTING
 //#
-//Device id (8 Byte)
-//Device type (2 Byte)
-//message (Get length)
-//Checksum (4 Byte)
 void sendLoRa(struct LoRaMessage *message) {
-  uint8_t messageLength = strlen(message->message) + 14;
+  uint8_t messageLength = strlen(message->message) + 11;
   char output[messageLength] = { '\0' };
+  uint8_t ptr = 0;
+  uint16_t checksum = 0;
 
-	sprintf(output, "%08x%02d%s", message->deviceID, message->devicetype, message->message);
-	
-	char check[5] = { '\0' };
-	for(uint8_t i = 0; i < strlen(output); i++) {
-		message->checksum += output[i];
-	}
-	sprintf(check, "%04x", message->checksum);
-	
-	strcat(output, check);
+  //Device id (8 Byte)
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 56));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 48));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 40));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 32));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 24));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 16));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID >> 8));
+  output[ptr++] = encryptChar((uint8_t) (message->deviceID));
+
+  //Device type (1 Byte)
+  output[ptr++] = encryptChar(message->deviceType);
+
+  //message (messageLength Byte)
+  for(uint8_t i = 0; i < messageLength; i++) {
+    output[ptr++] = encryptChar(message->message[i]);
+  }
+
+  //Checksum (2 Byte)
+  for(uint8_t i = 0; i < ptr; i++) {
+    checksum += output[i];
+  }
+  output[ptr++] = encryptChar((uint8_t) (checksum >> 8));
+  output[ptr++] = encryptChar((uint8_t) (checksum));
 
   LoRa.beginPacket();
-  LoRa.write((uint8_t *) output, messageLength);
+  LoRa.write((uint8_t *) output, ptr);
   LoRa.endPacket();
 }
 
-//Device id (8 Byte)
-//Device type (2 Byte)
-//message (Get length)
-//Checksum (2 Byte)
 void getLoRa(struct LoRaMessage *message) {
     uint8_t packetSize = LoRa.parsePacket();
     if (packetSize) {
-      printf("Received Message!\n");
+      uint16_t checksum = 0;
       char input[packetSize] = { '\0' };
       for(uint8_t i = 0; i < packetSize; i++) {
         input[i] = LoRa.read();
       }
-  
-      char pattern[18];
-      uint8_t messageSize = packetSize - 12;
-      sprintf(pattern, "t8xt2dt%dst4x", messageSize);
-      pattern[0] = '%';
-      pattern[4] = '%';
-      pattern[8] = '%';
-      pattern[strlen(pattern) - 3] = '%';
 
-      //Split the incoming message
-      sscanf(input, pattern, &message->deviceID, &message->devicetype, message->message, &message->checksum);
-		
-      uint16_t generated_checksum = 0;
-      for(uint8_t i = 0; i < packetSize-2; i++) {
-        generated_checksum += input[i];
+      //Checksum (2 Byte)
+      checksum += (uint16_t) decryptChar(input[(packetSize - 2)]) << 8;
+      checksum += (uint16_t) decryptChar(input[(packetSize - 1)]);
+      for(uint8_t i = 0; i < (packetSize - 2); i++) {
+        checksum -= input[i];
       }
-		
-      if(generated_checksum == message->checksum) message->empty = 0;
+
+      if(!checksum) {
+        uint8_t ptr = 0;
+
+        //Device id (8 Byte)
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 56;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 48;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 40;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 32;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 24;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 16;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]) << 8;
+        message->deviceID += (uint64_t) decryptChar(input[ptr++]);
+
+        //Device type (1 Byte)
+        message->deviceType = decryptChar(input[ptr++]);
+
+        //message (messageLength Byte)
+        for(uint8_t i = 0; i < (packetSize - 11); i++) {
+          message->message[i] = decryptChar(input[ptr++]);
+        }
+
+        message->empty = 0;
+      }
     }
+}
+
+unsigned char encryptChar(unsigned char message) {
+    return ((message * encryptKey) % 256);
+}
+
+unsigned char decryptChar(unsigned char cypher) {
+    return ((cypher * decryptKey) % 256);
 }

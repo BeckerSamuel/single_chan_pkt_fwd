@@ -123,9 +123,6 @@ void LoRaClass::end()
 {
   // put in sleep mode
   sleep();
-
-  // stop SPI
-  //_spi->end(); //TODO find solution, or never stop, because we run anyways for ever
 }
 
 int LoRaClass::beginPacket(int implicitHeader)
