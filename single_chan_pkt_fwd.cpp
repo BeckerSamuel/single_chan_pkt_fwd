@@ -45,7 +45,7 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-#include </usr/include/mariadb/mysql.h>
+#include <mysql.h>
 
 #include <sys/time.h>
 #include <sys/types.h>

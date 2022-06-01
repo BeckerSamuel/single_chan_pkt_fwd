@@ -2,8 +2,9 @@
 # Single Channel LoRaWAN Gateway
 
 CC = g++
-CFLAGS = -std=c++11 -c -Wall -I include/
-LIBS = -lwiringPi
+CFLAGS = -std=c++11 -c -Wall
+LIBS = -lwiringPi -L/usr/lib/arm-linux-gnueabihf/
+INC = -I include/ -I/usr/include/mariadb -I/usr/include/mariadb/mysql
 
 all: single_chan_pkt_fwd
 
@@ -11,7 +12,7 @@ single_chan_pkt_fwd: LoRa.o single_chan_pkt_fwd.o
 	$(CC) LoRa.o single_chan_pkt_fwd.o $(LIBS) -o single_chan_pkt_fwd
 
 single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
-	$(CC) $(CFLAGS) single_chan_pkt_fwd.cpp
+	$(CC) $(CFLAGS) $(INC) single_chan_pkt_fwd.cpp
 
 LoRa.o: LoRa.cpp
 	$(CC) $(CFLAGS) LoRa.cpp
