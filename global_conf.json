@@ -15,6 +15,7 @@
     "host": "localhost",
     "user": "admin",
     "passwd": "2chw4rz322ch4ff22",
+    "database_name": "lora_gateway",
     "db_raw_messages": "lora_raw_messages",
     "db_device_config": "lora_device_config"
   },

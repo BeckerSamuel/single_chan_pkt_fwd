@@ -1,5 +1,5 @@
 [Unit]
-Description=Lora Packet Forwarder
+Description=Lora Gateway
 After=syslog.target
 After=network.target
 

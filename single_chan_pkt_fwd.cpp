@@ -45,6 +45,8 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
+#include <mysql/mysql.h>
+
 #include <sys/time.h>
 #include <sys/types.h>
 
@@ -62,7 +64,7 @@ using namespace std;
 
 using namespace rapidjson;
 
-#define BUFFER_SIZE 1000
+#define BUFFER_SIZE 2000
 
 typedef enum SpreadingFactors
 {
@@ -91,6 +93,7 @@ int RST   = 0xff;
 string host = "";
 string user = "";
 string passwd = "";
+string db_name = "";
 string db_raw_messages = "";
 string db_device_config = "";
 
@@ -127,7 +130,7 @@ unsigned char decryptChar(unsigned char cypher);
 
 int main()
 {
-  uint32_t lasttime = 0;
+  /*uint32_t lasttime = 0;
   struct timeval nowtime;
   struct LoRaMessage *messageIn;
   messageIn = (struct LoRaMessage*) malloc(BUFFER_SIZE * sizeof(struct LoRaMessage));
@@ -199,7 +202,55 @@ int main()
 
     // Let some time to the OS
     delay(1);
+  }*/
+
+  //TODO test database connection:
+  MYSQL *connection, mysql;
+  MYSQL_RES *result;
+  MYSQL_ROW row;
+  int query_state;
+
+  char query[512] = { '\0' };
+
+
+  /*
+  string host = "";
+  string user = "";
+  string passwd = "";
+  string db_raw_messages = "";
+  string db_device_config = "";
+  */
+
+  //initialize database connection
+  mysql_init(&mysql);
+
+  // the three zeros are: Which port to connect to, which socket to connect to 
+  // and what client flags to use.  unless you're changing the defaults you only need to put 0 here
+  connection = mysql_real_connect(&mysql,host,user,passwd,db_name,0,0,0); 
+
+  // Report error if failed to connect to database
+  if (connection == NULL) {
+      cout << mysql_error(&mysql) << endl;
+      return 1;
   }
+
+  string rawMessagesTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, timestamp DATE NOT NULL, device_id INTEGER NOT NULL, message VARCHAR(256))";
+  string deviceConfigTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, device_id INTEGER NOT NULL, config VARCHAR(256))";
+  sprintf(query, rawMessagesTableCreate, db_raw_messages);
+
+  query_state = mysql_query(connection, query);
+
+  printf("%d\r\n", query_state);
+
+  /*//Send query to database
+  query_state = mysql_query(connection, "select * from pinDays");
+
+  // store result
+  result = mysql_store_result(connection);
+  while ( ( row = mysql_fetch_row(result)) != NULL ) {
+    // Print result, it prints row[column_number])
+    cout << row[0] << "\t" << row[1] << endl;
+  }*/
 
   return 0;
 }
@@ -250,6 +301,8 @@ void LoadConfiguration(string configurationFile)
             user.append(confIt->value.GetString());
           } else if (key.compare("passwd") == 0) {
             passwd.append(confIt->value.GetString());
+          } else if (key.compare("database_name") == 0) {
+            db_name.append(confIt->value.GetString());
           } else if (key.compare("db_raw_messages") == 0) {
             db_raw_messages.append(confIt->value.GetString());
           } else if (key.compare("db_device_config") == 0) {
