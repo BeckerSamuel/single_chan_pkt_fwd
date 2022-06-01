@@ -45,7 +45,7 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 
-#include <mysql/mysql.h>
+#include </usr/include/mariadb/mysql.h>
 
 #include <sys/time.h>
 #include <sys/types.h>
@@ -57,6 +57,7 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <map>
 
 #include "LoRa.h"
 
@@ -234,7 +235,7 @@ int main()
 
   // the three zeros are: Which port to connect to, which socket to connect to 
   // and what client flags to use.  unless you're changing the defaults you only need to put 0 here
-  connection = mysql_real_connect(&mysql,host,user,passwd,db_name,0,0,0); 
+  connection = mysql_real_connect(&mysql,host.c_str(),user.c_str(),passwd.c_str(),db_name.c_str(),0,0,0); 
 
   // Report error if failed to connect to database
   if (connection == NULL) {
@@ -244,7 +245,7 @@ int main()
 
   string rawMessagesTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, timestamp DATE NOT NULL, device_id INTEGER NOT NULL, message VARCHAR(256))";
   string deviceConfigTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, device_id INTEGER NOT NULL, config VARCHAR(256))";
-  sprintf(query, rawMessagesTableCreate, db_raw_messages);
+  sprintf(query, rawMessagesTableCreate.c_str(), db_raw_messages);
 
   printf("%s \r\n", query);
 
