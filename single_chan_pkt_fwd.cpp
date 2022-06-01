@@ -206,7 +206,7 @@ int main()
   }*/
 
   //TODO test database connection:
-  MYSQL *mysql, connection;
+  MYSQL *connection, mysql;
   MYSQL_RES *result;
   MYSQL_ROW row;
   int query_state;
@@ -237,11 +237,11 @@ int main()
 
   // the three zeros are: Which port to connect to, which socket to connect to 
   // and what client flags to use.  unless you're changing the defaults you only need to put 0 here
-  connection = mysql_real_connect(&mysql,host.c_str(),user.c_str(),passwd.c_str(),db_name.c_str(),0,0,0); 
+  connection = mysql_real_connect(&mysql, host.c_str(), user.c_str(), passwd.c_str(), db_name.c_str(), 0, 0, 0); 
 
   // Report error if failed to connect to database
   if (connection == NULL) {
-      cout << mysql_error(&connection) << endl;
+      cout << mysql_error(&mysql) << endl;
       return 1;
   }
 
@@ -249,9 +249,9 @@ int main()
   string deviceConfigTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, device_id INTEGER NOT NULL, config VARCHAR(256))";
   sprintf(query, rawMessagesTableCreate.c_str(), db_raw_messages.c_str());
 
-  printf("%s \r\n", query.c_str());
+  printf("%s \r\n", query);
 
-  query_state = mysql_query(connection, query.c_str());
+  query_state = mysql_query(connection, query);
 
   printf("%d \r\n", query_state);
 

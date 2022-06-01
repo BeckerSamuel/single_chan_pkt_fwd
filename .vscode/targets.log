@@ -1,14 +1,13 @@
 make.exe all --print-data-base --no-builtin-variables --no-builtin-rules --question
-Makefile:12: *** missing separator (did you mean TAB instead of 8 spaces?).  Stop.
-
 # GNU Make 4.3
 # Built for Windows32
 # Copyright (C) 1988-2020 Free Software Foundation, Inc.
 # License GPLv3+: GNU GPL version 3 or later <http://gnu.org/licenses/gpl.html>
 # This is free software: you are free to change and redistribute it.
 # There is NO WARRANTY, to the extent permitted by law.
+ 
 
-# Make data base, printed on Wed Jun 01 11:58:56 2022
+# Make data base, printed on Wed Jun 01 12:05:51 2022
 
 # Variables
 
@@ -139,7 +138,8 @@ MAKEFILES :=
 # automatic
 ^F = $(notdir $^)
 # environment
-PROMPT = $P$G
+PROMPT = $P$G 
+
 # environment
 CHOCOLATEYLASTPATHUPDATE = 132805790462341943
 # environment
@@ -166,15 +166,14 @@ PATHEXT = .COM;.EXE;.BAT;.CMD;.VBS;.VBE;.JS;.JSE;.WSF;.WSH;.MSC
 ORIGINAL_XDG_CURRENT_DESKTOP = undefined
 # environment
 USERDOMAIN = DESKTOP-BI1B09K
-# environment
+# 'override' directive
 GNUMAKEFLAGS := 
 # environment
 VS140COMNTOOLS = C:\Program Files (x86)\Microsoft Visual Studio 14.0\Common7\Tools\
 # environment
 OS = Windows_NT
 # environment
-PLATFORMIO_PATH = C:\Users\becke\.platformio\penv\Scripts;C:\Users\becke\.platformio\penv;C:\Users\becke\.platformio\python3;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Comm 
-on Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;
+PLATFORMIO_PATH = C:\Users\becke\.platformio\penv\Scripts;C:\Users\becke\.platformio\penv;C:\Users\becke\.platformio\python3;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;;E:\win64\bin;C:\ActiveTcl\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\GtkSharp\2.12\bin;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files (x86)\Windows Live\Shared;E:\IsoBuster\IsoBuster;C:\WINDOWS\System32\OpenSSH\;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;E:\Calibre\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\WINDOWS\System32\OpenSSH\;H:\Calibre\;C:\Program Files\dotnet\;E:\Putty\;E:\Minwg (c++ Compiler)\mingw64\bin;C:\ProgramData\chocolatey\bin;E:\win64\lib;E:\Maven\apache-maven-3.8.4\bin;E:\Git\cmd;C:\Users\becke\AppData\Local\Programs\Python\Python39\Scripts\;C:\Users\becke\AppData\Local\Programs\Python\Python39\;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;E:\Visual Studio Code\Microsoft VS Code\bin;E:\texstudio\miktex\miktex\bin\x64\;C:\Users\becke\.dotnet\tools;C:\Users\becke\AppData\Local\Microsoft\WindowsApps;C:\Users\becke\AppData\Local\GitHubDesktop\bin;C:\ProgramData\becke\GitHubDesktop\bin;E:\IntelliJ\IntelliJ IDEA Community Edition 2021.2.3\bin;;E:\win64\lib;E:\win64\bin;E:\Maven\apache-maven-3.8.4\bin;
 # makefile
 .DEFAULT_GOAL := all
 # default
@@ -220,7 +219,8 @@ SUFFIXES :=
 # environment
 ALLUSERSPROFILE = C:\ProgramData
 # environment
-SESSIONNAME = Console
+SESSIONNAME  
+= Console
 # default
 .FEATURES := target-specific order-only second-expansion else-if shortest-stem undefine oneshell nocomment grouped-target extra-prereqs archives jobserver output-sync load
 # environment
@@ -230,7 +230,7 @@ CC = g++
 # environment
 PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
 # variable set hash-table stats:
-# Load=108/1024=11%, Rehash=0, Collisions=10/121=8%
+# Load=108/1024=11%, Rehash=0, Collisions=12/140=9%
 
 # Pattern-specific Variable Values
 
@@ -249,7 +249,37 @@ PROCESSOR_IDENTIFIER = Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
 # Files
 
 # Not a target:
+LoRa.cpp:
+#  Implicit rule search has been done.
+#  Last modified 2022-05-19 18:12:43
+#  File has been updated.
+#  Successfully updated.
+
+# Not a target:
 Makefile:
+#  Implicit rule search has been done.
+#  Last modified 2022-06-01 12:05:49
+#  File has been updated.
+#  Successfully updated.
+
+uninstall:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 31):
+	sudo systemctl stop single_chan_pkt_fwd
+	sudo systemctl disable single_chan_pkt_fwd.service
+	sudo rm -f /lib/systemd/system/single_chan_pkt_fwd.service
+
+clean:
+#  Implicit rule search has not been done.
+#  Modification time never checked.
+#  File has not been updated.
+#  recipe to execute (from 'Makefile', line 21):
+	rm *.o single_chan_pkt_fwd
+
+# Not a target:
+single_chan_pkt_fwd.cpp:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
@@ -262,42 +292,89 @@ Makefile:
 
 all: single_chan_pkt_fwd
 #  Command line target.
-#  Implicit rule search has not been done.
-#  Modification time never checked.
-#  File has not been updated.
+#  Implicit rule search has been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
 
-single_chan_pkt_fwd: LoRa.o single_chan_pkt_fwd.o
+install:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+#  recipe to execute (from 'Makefile', line 24):
+	sudo cp -f ./single_chan_pkt_fwd.service /lib/systemd/system/
+	sudo systemctl enable single_chan_pkt_fwd.service
+	sudo systemctl daemon-reload
+	sudo systemctl start single_chan_pkt_fwd
+	sudo systemctl status single_chan_pkt_fwd -l
+
+single_chan_pkt_fwd: LoRa.o single_ch 
+an_pkt_fwd.o
+#  Implicit rule search has not been done.
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# variable set hash-table stats:
+# Load=0/32=0%, Rehash=0, Collisions=0/5=0%
+#  recipe to execute (from 'Makefile', line 12):
+	$(CC) LoRa.o single_chan_pkt_fwd.o $(LIBS) $(INC) -o single_chan_pkt_fwd
+
+LoRa.o: LoRa.cpp
+#  Implicit rule search has not been done.
+#  Implicit/static pattern stem: ''
+#  File does not exist.
+#  File has been updated.
+#  Needs to be updated (-q is set).
+# automatic
+# @ := LoRa.o
+# automatic
+# * := 
+# automatic
+# < := LoRa.cpp
+# automatic
+# + := LoRa.cpp
+# automatic
+# % := 
+# automatic
+# ^ := LoRa.cpp
+# automatic
+# ? := LoRa.cpp
+# automatic
+# | := 
+# variable set hash-table stats:
+# Load=8/32=25%, Rehash=0, Collisions=2/13=15%
+#  recipe to execute (from 'Makefile', line 18):
+	$(CC) $(CFLAGS) LoRa.cpp
 
 # Not a target:
-LoRa.o:
+.SUFFIXES:
 #  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
 
-# Not a target:
-single_chan_pkt_fwd.o:
-#  Implicit rule searc 
-h has not been done.
+single_chan_pkt_fwd.o: single_chan_pkt_fwd.cpp
+#  Implicit rule search has not been done.
 #  Modification time never checked.
 #  File has not been updated.
+#  recipe to execute (from 'Makefile', line 15):
+	$(CC) $(CFLAGS) $(INC) single_chan_pkt_fwd.cpp
 
 # files hash-table stats:
-# Load=7/1024=1%, Rehash=0, Collisions=0/13=0%
+# Load=12/1024=1%, Rehash=0, Collisions=0/32=0%
 # VPATH Search Paths
 
 # No 'vpath' search paths.
 
 # No general ('VPATH' variable) search path.
 
-# strcache buffers: 1 (0) / strings = 20 / storage = 221 B / avg = 11 B
-# current buf: size = 8174 B / used = 221 B / count = 20 / avg = 11 B
+# strcache buffers: 1 (0) / strings = 23 / storage = 245 B / avg = 10 B
+# current buf: size = 8174 B / used = 245 B / count = 23 / avg = 10 B
 
-# strcache performance: lookups = 28 / hit rate = 28%
+# strcache performance: lookups = 41 / hit rate = 43%
 # hash-table stats:
-# Load=20/8192=0%, Rehash=0, Collisions=0/28=0%
-# Finished Make data base on Wed Jun 01 11:58:56 2022
+# Load=23/8192=0%, Rehash=0, Collisions=0/41=0%
+# Finished Make data base on Wed Jun 01 12:05:51 2022
 
  
