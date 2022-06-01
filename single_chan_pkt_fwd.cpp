@@ -217,9 +217,17 @@ int main()
   string host = "";
   string user = "";
   string passwd = "";
+  string db_name = "";
   string db_raw_messages = "";
   string db_device_config = "";
   */
+
+  printf("%s \r\n", host);
+  printf("%s \r\n", user);
+  printf("%s \r\n", passwd);
+  printf("%s \r\n", db_name);
+  printf("%s \r\n", db_raw_messages);
+  printf("%s \r\n", db_device_config);
 
   //initialize database connection
   mysql_init(&mysql);
@@ -238,9 +246,11 @@ int main()
   string deviceConfigTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, device_id INTEGER NOT NULL, config VARCHAR(256))";
   sprintf(query, rawMessagesTableCreate, db_raw_messages);
 
+  printf("%s \r\n", query);
+
   query_state = mysql_query(connection, query);
 
-  printf("%d\r\n", query_state);
+  printf("%d \r\n", query_state);
 
   /*//Send query to database
   query_state = mysql_query(connection, "select * from pinDays");
