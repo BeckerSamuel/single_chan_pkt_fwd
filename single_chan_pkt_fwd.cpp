@@ -206,13 +206,15 @@ int main()
   }*/
 
   //TODO test database connection:
-  MYSQL *connection, mysql;
+  MYSQL *mysql, connection;
   MYSQL_RES *result;
   MYSQL_ROW row;
   int query_state;
 
   char query[512] = { '\0' };
 
+  LoadConfiguration("global_conf.json");
+  PrintConfiguration();
 
   /*
   string host = "";
@@ -223,12 +225,12 @@ int main()
   string db_device_config = "";
   */
 
-  printf("%s \r\n", host);
-  printf("%s \r\n", user);
-  printf("%s \r\n", passwd);
-  printf("%s \r\n", db_name);
-  printf("%s \r\n", db_raw_messages);
-  printf("%s \r\n", db_device_config);
+  printf("%s \r\n", host.c_str());
+  printf("%s \r\n", user.c_str());
+  printf("%s \r\n", passwd.c_str());
+  printf("%s \r\n", db_name.c_str());
+  printf("%s \r\n", db_raw_messages.c_str());
+  printf("%s \r\n", db_device_config.c_str());
 
   //initialize database connection
   mysql_init(&mysql);
@@ -239,17 +241,17 @@ int main()
 
   // Report error if failed to connect to database
   if (connection == NULL) {
-      cout << mysql_error(&mysql) << endl;
+      cout << mysql_error(&connection) << endl;
       return 1;
   }
 
   string rawMessagesTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, timestamp DATE NOT NULL, device_id INTEGER NOT NULL, message VARCHAR(256))";
   string deviceConfigTableCreate = "CREATE TABLE IF NOT EXISTS %s (id INTEGER NOT NULL AUTO INCREMENT, device_id INTEGER NOT NULL, config VARCHAR(256))";
-  sprintf(query, rawMessagesTableCreate.c_str(), db_raw_messages);
+  sprintf(query, rawMessagesTableCreate.c_str(), db_raw_messages.c_str());
 
-  printf("%s \r\n", query);
+  printf("%s \r\n", query.c_str());
 
-  query_state = mysql_query(connection, query);
+  query_state = mysql_query(connection, query.c_str());
 
   printf("%d \r\n", query_state);
 
