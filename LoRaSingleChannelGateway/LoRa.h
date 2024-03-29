@@ -4,30 +4,16 @@
 #ifndef LORA_H
 #define LORA_H
 
-#include <wiringPi.h>
-#include <wiringPiSPI.h>
 #include <stddef.h>
 #include <cstdint>
 #include <stdbool.h>
-#include <thread>
 
-// Select the used MODULE
-#define MODULE_B4 0
-#define MODULE_CM4 1
-
-#if MODULE_B4
-#define SPI_CHANNEL                0
+#define SPI_DEFAULT_NUMBER         0
+#define SPI_DEFAULT_CHANNEL        0
 #define LORA_DEFAULT_SPI_FREQUENCY 8E6 
 #define LORA_DEFAULT_SS_PIN        10
 #define LORA_DEFAULT_RESET_PIN     9
 #define LORA_DEFAULT_DIO0_PIN      2
-#elif MODULE_CM4
-#define SPI_CHANNEL                1
-#define LORA_DEFAULT_SPI_FREQUENCY 8E6 
-#define LORA_DEFAULT_SS_PIN        1
-#define LORA_DEFAULT_RESET_PIN     25
-#define LORA_DEFAULT_DIO0_PIN      27
-#endif
 
 #define PA_OUTPUT_RFO_PIN          0
 #define PA_OUTPUT_PA_BOOST_PIN     1
@@ -37,6 +23,8 @@ public:
   LoRaClass();
 
   int begin(long frequency);
+  int begin(long frequency, int spi_channel);
+  int begin(long frequency, int spi_nr, int spi_channel);
   void end();
 
   int beginPacket(int implicitHeader = false);
@@ -105,6 +93,8 @@ private:
   void bitWrite(uint8_t &x, unsigned int n, bool b);
 
 private:
+  int _spi_nr;
+  int _spi_channel;
   int _ss;
   int _reset;
   int _dio0;

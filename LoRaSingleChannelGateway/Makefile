@@ -3,7 +3,8 @@
 
 CC = g++
 CFLAGS = -std=c++11 -c -Wall
-LIBS = -lwiringPi -lmariadb -L /usr/lib/arm-linux-gnueabihf/
+#LIBS = -lwiringPi -lmariadb -L /usr/lib/arm-linux-gnueabihf/
+LIBS = -lmariadb -L /usr/lib/arm-linux-gnueabihf/
 INC = -I include/ -I /usr/include/mariadb -I /usr/include/mariadb/mysql
 
 all: single_chan_gateway

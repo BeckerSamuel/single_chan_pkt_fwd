@@ -7,7 +7,11 @@
         "cstdint": "cpp",
         "system_error": "cpp",
         "xstring": "cpp",
-        "map": "cpp"
+        "map": "cpp",
+        "thread": "cpp",
+        "stdint.h": "c",
+        "stdlib.h": "c",
+        "fcntl.h": "c"
     },
     "makefile.launchConfigurations": [
         {

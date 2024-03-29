@@ -14,8 +14,9 @@ Part of the source has been copied from the Semtech Packet Forwarder
 
 Maintainer: Thomas Telkamp <thomas@telkamp.eu>
 
-Was forked by @jlesech https://github.com/tftelkamp/single_chan_pkt_fwd to add json configuration file    
-then forked by @hallard https://github.com/hallard/single_chan_pkt_fwd 
+Was forked by @jlesech https://github.com/tftelkamp/single_chan_pkt_fwd to add json configuration file
+then forked by @hallard https://github.com/hallard/single_chan_pkt_fwd
+this is a fork for private usage, so please don't use it. I added things I need and it will have no documentation how to use it correctly.
 
 Added new Features
 ------------------

@@ -4,6 +4,7 @@
        		  12 34 -> Checksum (2 Bytes) (supports up to 257 characters, when every character is 255)
 
 Maximum message size is 255 Byte.
+Every byte should be processed as unsigned char. Hexadezimal characters are only shown at the top, to be able to use 2 digits per byte.
 
 Every byte will be encrypted with the crypting key (the key will added to the byte and for decryption it will be subtracted, all operation are % 255).
 
