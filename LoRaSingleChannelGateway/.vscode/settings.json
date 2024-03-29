@@ -1,0 +1,19 @@
+{
+    "makefile.extensionOutputFolder": "./.vscode",
+    "files.associations": {
+        "*.tcc": "cpp",
+        "iostream": "cpp",
+        "cstring": "cpp",
+        "cstdint": "cpp",
+        "system_error": "cpp",
+        "xstring": "cpp",
+        "map": "cpp"
+    },
+    "makefile.launchConfigurations": [
+        {
+            "cwd": "e:\\Desktop\\Arduino\\Raspberry Pi\\LoRa\\single_chan_pkt_fwd",
+            "binaryPath": "e:\\Desktop\\Arduino\\Raspberry Pi\\LoRa\\single_chan_pkt_fwd\\single_chan_pkt_fwd",
+            "binaryArgs": []
+        }
+    ]
+}

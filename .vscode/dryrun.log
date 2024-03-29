@@ -1,9 +1,0 @@
-make.exe all --dry-run --keep-going --print-directory
-make: Entering directory 'e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd'
-g++ -std=c++11 -c -Wall LoRa.cpp
- 
-g++ -std=c++11 -c -Wall -I include/ -I /usr/include/mariadb -I /usr/include/mariadb/mysql single_chan_pkt_fwd.cpp
- 
-g++ LoRa.o single_chan_pkt_fwd.o -lwiringPi -lmariadb -L /usr/lib/arm-linux-gnueabihf/ -I include/ -I /usr/include/mariadb -I /usr/include/mariadb/mysql -o single_chan_pkt_fwd
-make: Leaving directory 'e:/Desktop/Arduino/Raspberry Pi/LoRa/single_chan_pkt_fwd'
- 

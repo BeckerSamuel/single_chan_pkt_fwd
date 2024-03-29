@@ -1,2 +1,2 @@
-single_chan_pkt_fwd
+LoRaSingleChannelGateway/single_chan_gateway
 *.o

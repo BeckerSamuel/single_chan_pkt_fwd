@@ -1,0 +1,24 @@
+Used mariaDb for the database.
+
+Pinout for the LoRa rfm95/sx1276 module:
+LoRa on 4B:
+LoRa  -> WPi
+3.3V  -> 3v3 LDO
+GND   -> 25 (Physical)
+DIO0  -> 6
+RESET -> 3
+NSS   -> 10
+MOSI  -> 12
+MISO  -> 13
+SCK   -> 14
+
+LoRa on CM4:
+LoRa  -> WPi
+3.3V  -> 3v3 LDO
+GND   -> 25 (Physical)
+DIO0  -> 27
+RESET -> 25
+NSS   -> 1
+MOSI  -> 28
+MISO  -> 24
+SCK   -> 29

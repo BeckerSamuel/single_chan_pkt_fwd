@@ -1,0 +1,14 @@
+[Unit]
+Description=Lora Gateway
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/Socrate2/LoRaSingleChannelGateway/single_chan_pkt_fwd/
+ExecStart=/home/Socrate2/LoRaSingleChannelGateway/single_chan_pkt_fwd/single_chan_gateway
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
