@@ -2,8 +2,8 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 #include "LoRa.h"
-#include "wiringPiSPIAdjusted.h"
 #include <wiringPi.h>
+#include <wiringPi/wiringPiSPIAdjusted.h>
 #include <thread>
 
 // registers
