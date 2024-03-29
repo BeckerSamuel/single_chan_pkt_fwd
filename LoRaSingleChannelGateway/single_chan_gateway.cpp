@@ -174,7 +174,7 @@ int main() {
     // Setup LORA
     LoRa.setPins(ssPin, RST, dio0);
 
-    if (LoRa.begin(freq))
+    if (LoRa.begin(freq, spiNr, spiChannel))
         printf("LoRa Initializing OK!\n");
     else
         printf("Starting LoRa failed!\n");

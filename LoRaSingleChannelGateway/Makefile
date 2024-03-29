@@ -17,8 +17,8 @@ single_chan_gateway.o: single_chan_gateway.cpp LoRa.h
 LoRa.o: LoRa.cpp LoRa.h wiringPiSPIAdjusted.o
 	$(CC) $(CFLAGS) $(INC) LoRa.cpp
 
-wiringPiSPIAdjusted.o: wiringPi/wiringPiSPIAdjusted.c wiringPi/wiringPiSPIAdjusted.h
-	$(CC) $(CFLAGS) $(INC) wiringPi/wiringPiSPIAdjusted.c
+wiringPiSPIAdjusted.o: include/wiringPi/wiringPiSPIAdjusted.c include/wiringPi/wiringPiSPIAdjusted.h
+	$(CC) $(CFLAGS) $(INC) include/wiringPi/wiringPiSPIAdjusted.c
 
 clean:
 	rm *.o single_chan_gateway
