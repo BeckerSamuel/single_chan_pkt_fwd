@@ -28,13 +28,13 @@
 extern "C" {
 #endif
 
-int wiringPiSPIGetFdAdjusted(int channel);
+//int wiringPiSPIGetFdAdjusted(int channel);
 int wiringPiSPIGetFdAdjusted(int spi_nr, int channel);
-int wiringPiSPIDataRWAdjusted(int channel, unsigned char *data, int len);
+//int wiringPiSPIDataRWAdjusted(int channel, unsigned char *data, int len);
 int wiringPiSPIDataRWAdjusted(int spi_nr, int channel, unsigned char *data, int len);
-int wiringPiSPISetupModeAdjusted(int channel, int speed, int mode);
+//int wiringPiSPISetupModeAdjusted(int channel, int speed, int mode);
 int wiringPiSPISetupModeAdjusted(int spi_nr, int channel, int speed, int mode);
-int wiringPiSPISetupAdjusted(int channel, int speed);
+//int wiringPiSPISetupAdjusted(int channel, int speed);
 int wiringPiSPISetupAdjusted(int spi_nr, int channel, int speed);
 
 #ifdef __cplusplus

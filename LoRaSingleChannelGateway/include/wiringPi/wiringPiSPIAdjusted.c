@@ -29,6 +29,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <sys/ioctl.h>
+#include <string.h>
 
 #include "wiringPiSPIAdjusted.h"
 
@@ -53,9 +54,9 @@ static int spi1Fds[3];
  *	Return the file-descriptor for the given channel
  *********************************************************************************
  */
-int wiringPiSPIGetFdAdjusted(int channel) {
+/*int wiringPiSPIGetFdAdjusted(int channel) {
     return wiringPiSPIGetFdAdjusted(0, channel);
-}
+}*/
 
 int wiringPiSPIGetFdAdjusted(int spi_nr, int channel) {
     switch (spi_nr) {
@@ -82,9 +83,9 @@ int wiringPiSPIGetFdAdjusted(int spi_nr, int channel) {
  *	This is also a full-duplex operation.
  *********************************************************************************
  */
-int wiringPiSPIDataRWAdjusted(int channel, unsigned char *data, int len) {
+/*int wiringPiSPIDataRWAdjusted(int channel, unsigned char *data, int len) {
     return wiringPiSPIDataRWAdjusted(0, channel, data, len);
-}
+}*/
 
 int wiringPiSPIDataRWAdjusted(int spi_nr, int channel, unsigned char *data, int len) {
     struct spi_ioc_transfer spi;
@@ -123,9 +124,9 @@ int wiringPiSPIDataRWAdjusted(int spi_nr, int channel, unsigned char *data, int 
  *	Open the SPI device, and set it up, with the mode, etc.
  *********************************************************************************
  */
-int wiringPiSPISetupModeAdjusted(int channel, int speed, int mode) {
+/*int wiringPiSPISetupModeAdjusted(int channel, int speed, int mode) {
     wiringPiSPISetupModeAdjusted(0, channel, speed, mode);
-}
+}*/
 
 int wiringPiSPISetupModeAdjusted(int spi_nr, int channel, int speed, int mode) {
     int fd;
@@ -137,9 +138,14 @@ int wiringPiSPISetupModeAdjusted(int spi_nr, int channel, int speed, int mode) {
     //  channel &= 1 ;	// Channel is 0 or 1
 
     snprintf(spiDev, 31, "/dev/spidev%d.%d", spi_nr, channel);
+    printf(spiDev);
 
-    if ((fd = open(spiDev, O_RDWR)) < 0)
+    if ((fd = open(spiDev, O_RDWR)) < 0) {
+        printf("couldn't open spi");
         return -1;
+    }
+
+    printf("spi opened");
 
     switch (spi_nr) {
         case 0:
@@ -175,9 +181,9 @@ int wiringPiSPISetupModeAdjusted(int spi_nr, int channel, int speed, int mode) {
  *	Open the SPI device, and set it up, etc. in the default MODE 0
  *********************************************************************************
  */
-int wiringPiSPISetupAdjusted(int channel, int speed) {
+/*int wiringPiSPISetupAdjusted(int channel, int speed) {
     return wiringPiSPISetupAdjusted(0, channel, speed)
-}
+}*/
 
 int wiringPiSPISetupAdjusted(int spi_nr, int channel, int speed) {
     return wiringPiSPISetupModeAdjusted(spi_nr, channel, speed, 0);

@@ -3,20 +3,22 @@
 
 CC = g++
 CFLAGS = -std=c++11 -c -Wall
-#LIBS = -lwiringPi -lmariadb -L /usr/lib/arm-linux-gnueabihf/
-LIBS = -lmariadb -L /usr/lib/arm-linux-gnueabihf/
-INC = -I include/ -I /usr/include/mariadb -I /usr/include/mariadb/mysql
+LIBS = -lwiringPi -lmariadb -L /usr/lib/arm-linux-gnueabihf/
+INC = -I include/rapidjson/ -I include/wiringPi/ -I /usr/include/mariadb/ -I /usr/include/mariadb/mysql/
 
 all: single_chan_gateway
 
-single_chan_gateway: LoRa.o single_chan_gateway.o
-	$(CC) LoRa.o single_chan_gateway.o $(LIBS) $(INC) -o single_chan_gateway
+single_chan_gateway: wiringPiSPIAdjusted.o LoRa.o single_chan_gateway.o
+	$(CC) wiringPiSPIAdjusted.o LoRa.o single_chan_gateway.o $(LIBS) $(INC) -o single_chan_gateway
 
-single_chan_gateway.o: single_chan_gateway.cpp
+single_chan_gateway.o: single_chan_gateway.cpp LoRa.h
 	$(CC) $(CFLAGS) $(INC) single_chan_gateway.cpp
 
-LoRa.o: LoRa.cpp
-	$(CC) $(CFLAGS) LoRa.cpp
+LoRa.o: LoRa.cpp LoRa.h
+	$(CC) $(CFLAGS)  $(INC) LoRa.cpp
+
+wiringPiSPIAdjusted.o: wiringPiSPIAdjusted.c wiringPiSPIAdjusted.h
+	$(CC) $(CFLAGS) $(INC) wiringPiSPIAdjusted.c
 
 clean:
 	rm *.o single_chan_gateway
