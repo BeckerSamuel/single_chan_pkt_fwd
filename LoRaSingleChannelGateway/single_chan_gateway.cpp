@@ -140,6 +140,23 @@ void getLoRa(struct LoRaMessage *message);
 unsigned char encryptChar(unsigned char message);
 unsigned char decryptChar(unsigned char cypher);
 
+//TODO use one thread for getting messages inside the array and notify the main thread
+//TODO use the main thread to send them per api call (libcurl) pref gnutls (slower but more open source?)
+//https://curl.se/download.html
+//https://packages.debian.org/search?keywords=libcurl4-gnutls-dev
+//https://packages.debian.org/search?keywords=libcurl4-openssl-dev
+
+//TODO so the main thread will walk behind the other one
+
+//TODO every hour (have a timestamp and set the sleep/delay accordingly after an notify/interrupt) check the api for new configs
+//TODO if a config was received, lock the config array (the lora thread will not send configs then)
+//TODO and notify the api about all successfully transfered configs, delete the successfull ones and save all others (override old ones if neccessary)
+//TODO the time (1 hour) will be changeably by the config file (so check every 5 minutes or so for example)
+
+//TODO the lora thread will answer with ok to every received message
+//TODO in case of an config it will send the config first and answers ok to the device ok
+//TODO have the posibility to disable ok messages per device (or device type) => will also be loaded every hour from the api
+
 // TODO overhaul everything again
 // TODO use onReceive function of the LoRa class and check if onTxDone is also needed?
 // TODO only have a timer here to access db and put received emssages in there as well as get new configurations

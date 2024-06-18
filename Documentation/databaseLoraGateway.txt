@@ -1,0 +1,17 @@
+Used mariaDb for the database.
+
+DeviceTypeStructure:
+length: Number 0-255, length of the var to extract.
+signed: 0 if unsigned, 1 if signed.
+varType: Base of the extracted var (can be 0-15, so +1 needs to be added for processing).
+unitType: The type of the variable. It can be 'm' for meter or 'L' for litre. It has no real impact on the system and will just be used on the webapp to show the user of which type the variable is.
+conversionId: external id of a conversion table/function. The conversion will take place before the received values are saved in the database.
+
+DeviceConfigStructure:
+minNumber: minimum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
+maxNumber: maximum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
+
+Conversion:
+function: 0 if it's a table, 1 for a function
+conversion: A table in the format 1-5,2-6,3-7,4-8, or a function that is used to transform the incoming values before they are saved in the database.
+            It is used for example when the device sends the batteryvoltage in mV, but the user wants to see it in V. This would be possible with an easy function that divides the input by 100. (1230mV / 100 = 12,3V)

@@ -1,0 +1,8 @@
+Use Swagger fo generating the basics:
+https://github.com/swagger-api/swagger-editor
+-Download and copy into the "www/swagger/"-folder.
+-Rename the extracted folder to "editor", to have easier access.
+
+https://github.com/swagger-api/swagger-ui?tab=readme-ov-file
+-Download and extract 'dist'-folder into the "www/swagger/"-folder.
+-Rename the extracted folder to "ui", to have easier access.

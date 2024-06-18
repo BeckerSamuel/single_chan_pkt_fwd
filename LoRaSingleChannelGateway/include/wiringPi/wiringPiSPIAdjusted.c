@@ -123,10 +123,7 @@ int wiringPiSPISetupModeAdjusted(int spi_nr, int channel, int speed, int mode) {
     mode &= 3;  // Mode is 0, 1, 2 or 3
 
     // Channel can be anything - lets hope for the best
-    //  channel &= 1 ;	// Channel is 0 or 1
-
     snprintf(spiDev, 31, "/dev/spidev%d.%d", spi_nr, channel);
-    printf(spiDev);
 
     if ((fd = open(spiDev, O_RDWR)) < 0) 
         return -1;
