@@ -20,9 +20,3 @@ NSS   -> 1
 MOSI  -> 28
 MISO  -> 24
 SCK   -> 29
-
-API:
-Calls:
-
-Notes:
--Beim anlegen von parametern habe ein paar vorgegebene (z.B. Timestamp: wenn eine id eingetragen wird, dann wird diese genommen (falls vorhanden), wenn nichts eingetragen ist, dann nehme die zeit des nachrichten eingangs

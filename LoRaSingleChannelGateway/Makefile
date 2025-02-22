@@ -8,14 +8,17 @@ INC = -I include/ -I /usr/include/mariadb/ -I /usr/include/mariadb/mysql/
 
 all: single_chan_gateway
 
-single_chan_gateway: wiringPiSPIAdjusted.o LoRa.o single_chan_gateway.o
-	$(CC) wiringPiSPIAdjusted.o LoRa.o single_chan_gateway.o $(LIBS) $(INC) -o single_chan_gateway
+single_chan_gateway: wiringPiSPIAdjusted.o LoRa.o LoRaCryoting.o single_chan_gateway.o
+	$(CC) wiringPiSPIAdjusted.o LoRa.o LoRaCryoting.o single_chan_gateway.o $(LIBS) $(INC) -o single_chan_gateway
 
 single_chan_gateway.o: single_chan_gateway.cpp LoRa.h
 	$(CC) $(CFLAGS) $(INC) single_chan_gateway.cpp
 
-LoRa.o: LoRa.cpp LoRa.h wiringPiSPIAdjusted.o
-	$(CC) $(CFLAGS) $(INC) LoRa.cpp
+LoRaCryoting.o: include/loraCrypting/LoRaCrypting.cpp include/loraCrypting/LoRaCrypting.h
+	$(CC) $(CFLAGS) $(INC) include/loraCrypting/LoRaCrypting.cpp
+
+LoRa.o: include/lora/LoRa.cpp include/lora/LoRa.h wiringPiSPIAdjusted.o
+	$(CC) $(CFLAGS) $(INC) include/lora/LoRa.cpp
 
 wiringPiSPIAdjusted.o: include/wiringPi/wiringPiSPIAdjusted.c include/wiringPi/wiringPiSPIAdjusted.h
 	$(CC) $(CFLAGS) $(INC) include/wiringPi/wiringPiSPIAdjusted.c

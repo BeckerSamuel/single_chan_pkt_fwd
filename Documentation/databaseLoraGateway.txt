@@ -1,17 +1,70 @@
-Used mariaDb for the database.
+Devices:
+deviceId:   Primary key id of the device.
+deviceType: Foreign key to connect the device to a device type.
+deviceName: Name of the device.
 
-DeviceTypeStructure:
-length: Number 0-255, length of the var to extract.
-signed: 0 if unsigned, 1 if signed.
-varType: Base of the extracted var (can be 0-15, so +1 needs to be added for processing).
-unitType: The type of the variable. It can be 'm' for meter or 'L' for litre. It has no real impact on the system and will just be used on the webapp to show the user of which type the variable is.
-conversionId: external id of a conversion table/function. The conversion will take place before the received values are saved in the database.
+
+DeviceTypeInfo:
+deviceTypeId:          Primary key of the device type.
+deviceTypeName:        The name of the device type.
+deviceTypeDescription: A short description of the device type.
+
+DeviceMessageStructure:
+structureVarId: Primary key connected with deviceTypeId, so wont be unique by itself. Each device type can have up to 255 variables.
+deviceTypeId:   (Primary and) Foreign key to connect the variable structures to a device type.
+length:         Number 0-255, length of the var to extract.
+signed:         0 if unsigned, 1 if signed.
+varType:        Base of the extracted var (can be 0-15, so +1 needs to be added for processing).
+unitType:       The type of the variable. It can be 'm' for meter or 'L' for litre. It has no real impact on the system and will just be used on the webapp to show the user of which type the variable is.
+conversionId:   External id of a conversion table/function. The conversion will take place when the received message is saved in the specific DeviceTypeXX table.
+
+DeviceMessageInfo:
+structureVarId: Primary key connected with deviceTypeId, so wont be unique by itself. Each device type can have up to 255 variables.
+deviceTypeId:   (Primary and) Foreign key to connect the variable structures to a device type.
+description:    A short description to explain for what this parameter is used.
 
 DeviceConfigStructure:
-minNumber: minimum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
-maxNumber: maximum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
+configVarId:  Primary key connected with deviceTypeId, so wont be unique by itself. Each device type can have up to 255 variables.
+deviceTypeId: (Primary and) Foreign key to connect the variable structures to a device type.
+length:       Number 0-255, length of the var to extract.
+signed:       0 if unsigned, 1 if signed.
+varType:      Base of the extracted var (can be 0-15, so +1 needs to be added for processing).
+minNumber:    Minimum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
+maxNumber:    Maximum number that will be shown and used in the background to check if the input is valid when the user creates a message. It will only be used, when the typeLength is equal to 10.
+
+DeviceConfigInfo:
+configVarId:  Primary key connected with deviceTypeId, so wont be unique by itself. Each device type can have up to 255 variables.
+deviceTypeId: (Primary and) Foreign key to connect the variable structures to a device type.
+description:  A short description to explain for what this parameter is used.
+
+DeviceConfigGenerated:
+deviceId:         Primary and Foreign key to connect a config to a device. Each device can only have one config at a time.
+deviceConfig:     The config as an String. Ready to be send directly to the device. This is generated from the data of the DeviceConfigStructure and user inputs for the variable values.
+deviceConfigSend: 0 if it's not yet send to the device. If it's 1, the device has received and accepted the configuration.
+
+
+ConversionAssignment:
+conversionAssignmentId: Primary key of the assignment.
+deviceId:               Foreign key to connect a device to this assignment.
+structureVarId:         Foreign key to connect a DeviceMessageStructure variable to this assignment. The deviceType of the deviceId is used to select the correct one.
+conversionId:           Foreign key to connect a conversion to this assignment.
 
 Conversion:
-function: 0 if it's a table, 1 for a function
-conversion: A table in the format 1-5,2-6,3-7,4-8, or a function that is used to transform the incoming values before they are saved in the database.
-            It is used for example when the device sends the batteryvoltage in mV, but the user wants to see it in V. This would be possible with an easy function that divides the input by 100. (1230mV / 100 = 12,3V)
+conversionId:   Primary key of the conversion.
+conversionName: Name of the conversion.
+function:       0 if it's a table, 1 for a function
+conversion:     A table in the format 1-5,2-6,3-7,4-8, or a function that is used to transform the incoming values before they are saved in the database.
+                It is used for example when the device sends the batteryvoltage in mV, but the user wants to see it in V. This would be possible with an easy function that divides the input by 100. (1230mV / 100 = 12,3V)
+
+
+MessageRaw:
+messageId: Primary key unique id of the received message. Will increase with each received message.
+deviceId:  Foreign key to connect a device to this message.
+timestamp: The timestamp, when the message was received.
+message:   The message itself, not yet processed in any way.
+
+DeviceTypeXX:
+messageId: Primary key unique id of the received message. Will connect the processed message of this table with the raw message of the MessageRaw table.
+deviceId:  Foreign key to connect a device to this message.
+timestamp: The timestamp, when the message was received.
+more data: The processed data seperated in columns. This table structure will be generated from the DeviceMessageStructure of the device type XX. Each device type will have it's own table.

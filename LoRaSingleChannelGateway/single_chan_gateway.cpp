@@ -40,8 +40,8 @@
 // +-----+-----+---------+--B Plus--+---------+-----+-----+
 
 #include <mysql.h>
-#include <rapidjson/document.h>
-#include <rapidjson/filereadstream.h>
+//#include <rapidjson/document.h>
+//#include <rapidjson/filereadstream.h>
 #include <sys/time.h>
 #include <sys/types.h>
 #include <wiringPi.h>
@@ -55,7 +55,10 @@
 #include <string>
 #include <vector>
 
+#include "document.h" //TODO test if that works
+#include "filereadstream.h"
 #include "LoRa.h"
+#include "LoRaCryoting.h"
 
 using namespace std;
 
@@ -63,23 +66,14 @@ using namespace rapidjson;
 
 #define BUFFER_SIZE 2000
 
-typedef enum SpreadingFactors {
-    SF7 = 7,
-    SF8,
-    SF9,
-    SF10,
-    SF11,
-    SF12
-} SpreadingFactor_t;
-
 /*******************************************************************************
  * Default values, configure them in global_conf.json
  *******************************************************************************/
 // Set spreading factor (SF7 - SF12), &nd  center frequency
 // Overwritten by the ones set in global_conf.json
-uint32_t freq = 868E6; // in Mhz! (868)
-SpreadingFactor_t sf = SF7;
-uint32_t bw = 125E3;
+uint32_t freq = LORA_CRYPTING_BAND; // in Mhz! (868)
+SpreadingFactor_t sf = LORA_CRYPTING_SPREAD_FACTOR;
+uint32_t bw = LORA_CRYPTING_BAND;
 
 // SX1276 - Raspberry connections
 // Overwritten by the ones set in global_conf.json
@@ -91,8 +85,8 @@ int RST = 0xff;
 
 // Keys for LoRa message encryption
 // Overwritten by the ones set in global_conf.json
-uint8_t encryptKey = 0;
-uint8_t decryptKey = 0;
+uint8_t encryptKey = LORA_CRYPTING_ENCRYPT_KEY;
+uint8_t decryptKey = LORA_CRYPTING_DECRYPT_KEY;
 
 // Database - Connection information
 // Overwritten by the ones set in global_conf.json
@@ -109,18 +103,8 @@ float lat = 0.0;
 float lon = 0.0;
 int alt = 0;
 
-// LoRa Messages
-struct LoRaMessage {
-    uint64_t deviceID;
-    uint8_t deviceType;
-    char message[255];
-    int16_t rssi;
-    uint8_t empty;
-};
-
 uint16_t msgPos = 0;
-struct LoRaMessage *messageIn;
-struct LoRaMessage *messageInTemp;
+LoRaMessageContainer_t *messageIn;
 map<int, char *> configs;   // device id to config
 map<string, string> types;  // devcie type to message struct //TODO remove all string parts and use arrays instead
 
@@ -131,14 +115,84 @@ MYSQL_ROW row;
 int query_state;
 char query[512] = {'\0'};
 
-void LoadConfiguration(string filename);
-void PrintConfiguration();
-void saveLoRaMessages(void);
-void getLoRaConfigs(void);
-void sendLoRa(struct LoRaMessage *message);
-void getLoRa(struct LoRaMessage *message);
-unsigned char encryptChar(unsigned char message);
-unsigned char decryptChar(unsigned char cypher);
+//on interrupt
+// receive message
+// process message
+// if not valid stop or send nack
+// if valid check
+
+
+// message valid:
+//  do nothing if checksum is wrong
+//  if number is wrong send correct number in nack
+//  if anything else is wrong, just accept it (e.g. the content length)
+
+static void onLoRaMessageReceived(int packetSize) {
+	// load message
+	if (packetSize) {
+		LoRaEncryptedMessage receivedMessage;
+		LoRaMessageContainer_t loraMessageContainer;
+		
+        for (uint8_t i = 0; i < packetSize; i++) {
+            receivedMessage.content[i] = LoRa.read();
+        }
+		
+		//process message
+		if(decryptLoRaMessageContainer(&loraMessageContainer, &receivedMessage, packetSize, LoRa.packetRssi()) == 0) {
+			//received successful
+			//save message
+			//trigger ack
+		} else {
+			//some problem occoured
+			//send nack
+		}
+}
+
+void getLoRa(struct LoRaMessage *message) {
+    uint8_t packetSize = LoRa.parsePacket();
+    if (packetSize) {
+        uint16_t checksum = 0;
+        char input[packetSize] = {'\0'};
+        for (uint8_t i = 0; i < packetSize; i++) {
+            input[i] = LoRa.read();
+        }
+
+        // Checksum (2 Byte)
+        checksum += (uint16_t)decryptChar(input[(packetSize - 2)]) << 8;
+        checksum += (uint16_t)decryptChar(input[(packetSize - 1)]);
+        for (uint8_t i = 0; i < (packetSize - 2); i++) {
+            checksum -= input[i];
+        }
+
+        if (!checksum) {
+            uint8_t ptr = 0;
+
+            // Device id (8 Byte)
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 56;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 48;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 40;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 32;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 24;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 16;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]) << 8;
+            message->deviceID += (uint64_t)decryptChar(input[ptr++]);
+
+            // Device type (1 Byte)
+            message->deviceType = decryptChar(input[ptr++]);
+
+            // message (messageLength Byte)
+            uint8_t i = 0;
+            for (i = 0; i < (packetSize - 11); i++) {
+                message->message[i] = decryptChar(input[ptr++]);
+            }
+            message->message[i] = '\0';
+
+            message->rssi = LoRa.packetRssi();
+
+            message->empty = 0;
+        }
+    }
+}
 
 //TODO use one thread for getting messages inside the array and notify the main thread
 //TODO use the main thread to send them per api call (libcurl) pref gnutls (slower but more open source?)
@@ -165,15 +219,13 @@ int main() {
     struct timeval nowtime;
     bool toggle = true;
 
-    messageIn = (struct LoRaMessage *)malloc(BUFFER_SIZE * sizeof(struct LoRaMessage));
-    messageInTemp = (struct LoRaMessage *)malloc(BUFFER_SIZE * sizeof(struct LoRaMessage));
+    messageIn = (LoRaMessageContainer_t *)malloc(BUFFER_SIZE * sizeof(LoRaMessageContainer_t));
     for (uint16_t i = 0; i < BUFFER_SIZE; i++) {
         (messageIn + i)->empty = 1;
-        (messageInTemp + i)->empty = 1;
     }
 
-    struct LoRaMessage *messageOut;
-    messageOut = (struct LoRaMessage *)malloc(sizeof(struct LoRaMessage));
+    LoRaMessageContainer_t *messageOut;
+    messageOut = (LoRaMessageContainer_t *)malloc(sizeof(LoRaMessageContainer_t));
     messageOut->empty = 1;
 
     LoadConfiguration("global_conf.json");
@@ -200,9 +252,20 @@ int main() {
     LoRa.setSpreadingFactor(sf);
     // set signal bandwidth
     LoRa.setSignalBandwidth(bw);
+	
+	// set up interrupt on receive
+	LoRa.onReceive(void (*callback)(int))
 
     printf("Listening at SF%i on %.6lf Mhz.\n", sf, (double)freq / 1000000);
     printf("-----------------------------------\n");
+	
+	
+	
+	
+	
+	
+	
+	/*
 
     while (1) {
         getLoRa(messageIn + msgPos);
@@ -401,7 +464,8 @@ void getLoRaConfigs(void) {
     // TODO also load all types into a map (types to message struct (how to spilt data, means 2 characters into first, then 6 into second usw, id is always the same))
 }
 
-// #
+//TODO use new library functions instead
+/*// #
 // # LORA CRYPTING
 // #
 void sendLoRa(struct LoRaMessage *message) {
@@ -492,4 +556,4 @@ unsigned char encryptChar(unsigned char message) {
 
 unsigned char decryptChar(unsigned char cypher) {
     return ((cypher * decryptKey) % 256);
-}
+}*/
